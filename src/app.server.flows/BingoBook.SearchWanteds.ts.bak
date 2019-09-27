@@ -1,0 +1,20 @@
+import Flow from '../app.db/src/db.flow/flow';
+import Accessor from '../app.db/src/db.accessors/Accessor';
+import TrWanted from '@/app.db/src/TrWanted';
+import { access } from 'fs';
+
+export default class BingoBookSearchWantedsFlow {
+    public async Search() {
+        const dbflow = new Flow();
+        dbflow.Run([TrWanted])
+        .then((accessor: Accessor) => {
+            const wanteds = TrWanted.find();
+            console.log(JSON.stringify(wanteds));
+            return wanteds;
+        })
+        .catch(error => {
+            console.log(`error at BingoBookSearch : ${error}`);
+        });
+
+    }
+}

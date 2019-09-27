@@ -1,0 +1,74 @@
+<template>
+  <div class="rowView">
+    <div class="row" v-if="uuid">
+      <div class="col-4 p-1">
+        <div class="target-image">{{ image }}</div>
+      </div>
+      <div class="col-8 text-left">
+        <div class="row">
+          <div class="col-12">
+            <input class="target-name form-control-sm" type="text" v-model="name" placeholder="ターゲット名" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <input class="target-prize form-control-sm" type="number" v-model="prize_money" placeholder="懸賞金額" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <input class="target-warning form-control-sm" type="text" v-model="warning" placeholder="要注意！！" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <input type="button" class="btn btn-sm btn-info target-save mt-1" value="save" />
+          </div>
+        </div>
+      </div>
+      <hr class="m-0 p-0" />
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <hr class="m-1 p-0" style="border: solid 1px lightgray;" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+// import Row from '@/app.viewmodels/BingoBookBehind';
+
+@Component
+export default class RowView extends Vue {
+  @Prop() private uuid: string = '';
+  @Prop() private name: string = '';
+  @Prop() private prize_money: Number = 0;
+  @Prop() private image: string = '';
+  @Prop() private warning: string = '';
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+.target-image {
+  width:100%;
+  height:100%;
+  min-height: 100px;
+  min-width: 100px;
+  background: #aaa;
+}
+.target-name-label {
+  font-size: x-small;
+  background: gray;
+  color: white;
+}
+.target-warning {
+  width: 98%;
+}
+input[type=text] {
+  height: 22px;
+  width: 98%;
+}
+</style>
