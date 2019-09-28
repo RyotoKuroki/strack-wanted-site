@@ -6,7 +6,7 @@ import ServerFlow from '@/app.server.flows/ServerFlow';
 // import TrWanted from '@/app.db/src/TrWanted';
 
 export default class BingoBookBehind {
-    public Rows: Row[] = new Array<Row>();
+    public rows: Row[] = new Array<Row>();
     constructor() {
         // super();
         this.SearchWanteds();
@@ -23,7 +23,7 @@ export default class BingoBookBehind {
                 const row = new Row();
                 row.EntityToRow(entity);
                 array.push(row);
-                this.Rows.push(row);
+                this.rows.push(row);
             });
             // this.Rows = array;
             /*
