@@ -12,7 +12,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <input class="target-prize form-control-sm" type="number" v-model="prize_money" placeholder="懸賞金額" />
+            <input class="target-prize form-control-sm" type="number" v-model="prize_mmoney" placeholder="懸賞金額" />
           </div>
         </div>
         <div class="row">
@@ -44,7 +44,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class RowView extends Vue {
   @Prop() private uuid: string = '';
   @Prop() private name: string = '';
-  @Prop() private prize_money: Number = 0;
+  @Prop() private prize_mmoney: number = 0;
   @Prop() private image: string = '';
   @Prop() private warning: string = '';
 }

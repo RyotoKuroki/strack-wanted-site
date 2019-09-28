@@ -5,7 +5,7 @@
         <RowView
           :uuid="row.uuid"
           :name="row.name"
-          :prize_money="row.FormattedPrizeMoney"
+          :prize_mmoney="row.FormattedPrizeMoney"
           :image="row.image"
           :warning="row.warning" />
       </div>
@@ -18,6 +18,8 @@ import { Component, Vue } from 'vue-property-decorator';
 // import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import RowView from '@/components/BingoBook.RowView.vue';
 import BingoBookBehind from '@/app.viewmodels/BingoBookBehind.ts';
+import Row from '@/app.viewmodels/BingoBookBehind.ts';
+import TrWanted from '@/app.entities/TrWanted.ts';
 
 @Component({
   components: {
@@ -28,7 +30,7 @@ import BingoBookBehind from '@/app.viewmodels/BingoBookBehind.ts';
 export default class BingoBook extends Vue {
 
   codeBehind = new BingoBookBehind();
-
+  
   constructor() {
     super();
   }

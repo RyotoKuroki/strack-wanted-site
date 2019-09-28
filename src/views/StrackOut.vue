@@ -2,11 +2,13 @@
   <div class="strackOut">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <!--
     <WantedPaper
       name="aaaaa"
-      prize_money="bbbb"
+      prizeMoney="bbbb"
       image="cccc"
-      warning="dddd"></WantedPaper>
+      warning="dddd" />
+  -->
   </div>
 </template>
 

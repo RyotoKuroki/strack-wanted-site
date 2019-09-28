@@ -15,7 +15,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class WantedPaper extends Vue {
   @Prop() private msg!: string;
   @Prop() private name!: string;
-  @Prop() private prize_money!: string;
+  @Prop() private prizeMoney!: string;
   @Prop() private image!: string;
   @Prop() private warning!: string;
 }
