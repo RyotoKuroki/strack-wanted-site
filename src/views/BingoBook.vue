@@ -4,26 +4,39 @@
       <div class="col-12">
         <div class="row" v-for="(row, uuid) in codeBehind.rows" :key="uuid">
           <div class="col-4 col-sm-4">
-            <img class="target-image" />
+            <div class="row">
+              <div class="col-12">
+                <img class="target-image" v-bind:class="{dummyimage:row.image === undefined || row.image.length === ''}" style="opacity: 0.2;" v-bind:src="row.image" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-center">
+                <label style="font-size: small"><u>画像選択</u>
+                  <input type="file" class="form-control" style="display: none;"
+                          @click="codeBehind.ClickRow($event, row)"
+                          @change="codeBehind.SelectImage($event)" />
+                </label>
+              </div>
+            </div>
           </div>
           <div class="col-8 col-sm-8">
             <div class="row">
               <div class="col-12 col-sm-12">
-                <input type="text" v-model="row.name" class="target-name" />
+                <input type="text" v-model="row.name" class="form-control-sm target-name" placeholder="ターゲット名" />
               </div>          
             </div>
             <div class="row">
               <div class="col-12 col-sm-12">
-                <input type="text" v-model="row.prize_mmoney" />
+                <input type="number" v-model="row.prize_mmoney" class="form-control-sm form-control" placeholder="懸賞金額" />
               </div>          
             </div>
             <div class="row">
               <div class="col-12 col-sm-12">
-                <input type="text" v-model="row.warning" />
+                <input type="text" v-model="row.warning" class="form-control-sm form-control" placeholder="要注意！！" />
               </div>
             </div>
             <div class="row">
-              <div class="col-12 col-sm-12">
+              <div class="col-12 col-sm-12 mt-2">
                 <input type="button" class="btn btn-info btn-sm btn-block" value="save" />
               </div>
             </div>
@@ -61,7 +74,6 @@ export default class BingoBook extends Vue {
 }
 </script>
 <style>
-
 .target-image {
   width:100%;
   height:100%;
@@ -69,17 +81,23 @@ export default class BingoBook extends Vue {
   min-width: 100px;
   background: #aaa;
 }
-.target-name-label {
-  font-size: x-small;
-  background: gray;
-  color: white;
+.target-image-btn {
+  width: 92%;
 }
-.target-warning {
+.target-image {
   width: 98%;
 }
-input[type=text] {
+input[type=text],
+input[type=number] {
   height: 22px;
   width: 98%;
   margin: 0;
+}
+.target-image-label {
+  padding: 0 1rem;
+  border: solid 1px #888;
+}
+.dummyimage {
+  opacity: 1;
 }
 </style>

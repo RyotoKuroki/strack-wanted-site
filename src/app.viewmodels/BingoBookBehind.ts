@@ -25,25 +25,25 @@ export default class BingoBookBehind {
                 array.push(row);
                 this.rows.push(row);
             });
-            // this.Rows = array;
-            /*
-            const hoge = new Row();
-            const inf = new TrWanted();
-            inf.uuid = '1';
-            inf.whois = '1';
-            inf.name = '1';
-            inf.prize_money = 123;
-            inf.revision = 1;
-            inf.warning = '1';
-            hoge.EntityToRow(inf);
-            // hoge.SnapShot();
-            array.push(hoge);
-            this.Rows = array;
-            */
         })
         .catch((error: any) => {
             console.log(`error at server-request : ${error}`);
         });
+    }
+    protected lazyImageSelectEvent: any;
+    public ClickRow(ev: any, row: Row) {
+        this.lazyImageSelectEvent = (changeEvent: any) => {
+            const fr = new FileReader();
+            const files = ev.target.files || ev.files;
+            if(!files || files.length == 0)
+                return alert('ファイルを選択して下さい。');
+            fr.onload = (e) => row.image = `${fr.result}`;
+            fr.readAsDataURL(files[0]);
+        };
+    }
+    public SelectImage(ev: any, ev2: any) {
+        if(this.lazyImageSelectEvent)
+            this.lazyImageSelectEvent();
     }
 }
 
