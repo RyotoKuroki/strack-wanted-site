@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">BingoBook</router-link> |
-      <router-link to="/strack-out">StrackOut</router-link>
+      <router-link to="/">ビンゴブック</router-link> |
+      <router-link to="/strack-out">ストラックアウト</router-link>
     </div>
     <router-view/>
   </div>
