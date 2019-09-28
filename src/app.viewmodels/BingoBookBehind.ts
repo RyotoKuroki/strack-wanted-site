@@ -36,7 +36,14 @@ export default class BingoBookBehind {
             const fr = new FileReader();
             const files = ev.target.files || ev.files;
             if(!files || files.length == 0)
-                return alert('ファイルを選択して下さい。');
+                return alert('ファイルを１つ選択して下さい。');
+            const file = files[0];
+            const filename = `${file.name}`;
+            if(!filename.toLowerCase().match('.jpeg$') &&
+                !filename.toLowerCase().match('.jpg$') &&
+                !filename.toLowerCase().match('.png$') &&
+                !filename.toLowerCase().match('.gif$'))
+                return alert('画像ファイルを選択して下さい（.jpeg| .jpg| .png| .gif）');
             fr.onload = (e) => row.image = `${fr.result}`;
             fr.readAsDataURL(files[0]);
         };

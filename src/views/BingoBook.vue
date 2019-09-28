@@ -6,23 +6,29 @@
           <div class="col-4 col-sm-4">
             <div class="row">
               <div class="col-12">
-                <img class="target-image" v-bind:class="{dummyimage:row.image === undefined || row.image.length === ''}" style="opacity: 0.2;" v-bind:src="row.image" />
+                <img class="target-image"
+                      style="opacity: 0.2;"
+                      v-bind:class="{dummyimage:row.image === undefined || row.image.length === ''}"
+                      v-bind:src="row.image" />
               </div>
             </div>
             <div class="row">
-              <div class="col-12 text-center">
-                <label style="font-size: small"><u>画像選択</u>
-                  <input type="file" class="form-control" style="display: none;"
+              <div class="col-9 text-center px-0">
+                <label class="px-2" style="font-size: smaller;"><u>画像選択</u>
+                  <input type="file" class="form-control m-0 p-0" style="display: none;"
                           @click="codeBehind.ClickRow($event, row)"
                           @change="codeBehind.SelectImage($event)" />
                 </label>
+              </div>
+              <div class="col-3 text-right px-0">
+                <input type="button" value="×" class="btn btn-sm m-0 p-0" />
               </div>
             </div>
           </div>
           <div class="col-8 col-sm-8">
             <div class="row">
               <div class="col-12 col-sm-12">
-                <input type="text" v-model="row.name" class="form-control-sm target-name" placeholder="ターゲット名" />
+                <input type="text" v-model="row.name" class="form-control-sm form-control" placeholder="ターゲット名" />
               </div>          
             </div>
             <div class="row">
@@ -89,7 +95,7 @@ export default class BingoBook extends Vue {
 }
 input[type=text],
 input[type=number] {
-  height: 22px;
+  height: 25px;
   width: 98%;
   margin: 0;
 }
