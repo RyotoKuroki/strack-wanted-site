@@ -4,17 +4,18 @@ import ServerFlow from '@/app.server.flows/ServerFlow';
 import TrWanted from '@/app.entities/TrWanted';
 
 export default class BingoBookBehind {
+    //protected serverFlow: ServerFlow = new ServerFlow();
     public rows: Row[] = new Array<Row>();
     constructor() {
         this.SearchWanteds();
     }
-    public async SearchWanteds() {
+    public SearchWanteds() {
         ServerFlow.Execute({
-            post: true,
+            reqMethod: 'get',
             url: 'http://localhost:3000/GET/wanteds',
             data: {}
         })
-        .then((result: any) => {
+        .done((result: any) => {
             const array = new Array<Row>();
 
             // for add new-info
@@ -30,7 +31,6 @@ export default class BingoBookBehind {
                 row.EntityToRow(entity);
                 array.push(row);
             });
-            
             this.rows = array;
         })
         .catch((error: any) => {
@@ -53,43 +53,70 @@ export default class BingoBookBehind {
     public DeleteRow(ev: any, row: Row) {
         if(!confirm(`【${row.name}】 をターゲットから除外しますか？\r\n除外後は復元できませんのでご注意下さい。`))
             return false;
-        const currentRows = this.rows;
-        this.rows = currentRows.filter(x => x.uuid !== row.uuid);
-
-        // 新規登録用の行の場合、DBへの削除処理は不要なためここで終了
-        if(row.uuid === Row.UUID_KEY__ADDED_ROW)
-            return false;
         
+        const currentRows = this.rows;
+
+        // 新規追加行の削除は画面上だけの対応でOK
+        if(row.uuid === Row.UUID_KEY__ADDED_ROW) {
+            this.rows = currentRows.filter(x => x.uuid !== row.uuid);
+            return;
+        }
+
         // DBサーバへ削除リクエスト
+        // 既存データの削除はサーバへ削除リクエス込み
         this.DeleteWanteds(row);
     }
-    public async DeleteWanteds(row: Row) {
+    public DeleteWanteds(row: Row) {
         ServerFlow.Execute({
-            post: true,
+            reqMethod: 'delete',
             url: `http://localhost:3000/DELETE/wanteds?uuid=${row.uuid}`,
             data: {}
         })
-        .then((result: any) => {
-            const array = new Array<Row>();
-
-            // for add new-info
-            const entity = new TrWanted();
-            entity.uuid = Row.UUID_KEY__HEADER_ROW;
-            const forNew = new Row();
-            forNew.EntityToRow(entity);
-            array.push(forNew);
-            
-            // for edit existing-info
-            $.each(result.wanteds, (index: number, entity: any) => {
-                const row = new Row();
-                row.EntityToRow(entity);
-                array.push(row);
-            });
-            
-            this.rows = array;
+        .done((result: any) => {
+            const currentRows = this.rows;
+            this.rows = currentRows.filter(x => x.uuid !== row.uuid);
         })
         .catch((error: any) => {
             console.log(`error at server-request : ${error}`);
+        });
+    }
+    public SaveWanteds(event: any, row: Row) {
+        // check
+        const check = (judge: boolean, msgPart: string): boolean => {
+            // OK
+            if(judge)
+                return true;
+            // NG
+            alert(`${msgPart}を設定して下さい。`);
+            return false;
+        };
+        if (!check(row.hasImage, '画像') ||
+            !check(row.name !== null && row.name !== '', 'ターゲット名') ||
+            !check(row.prize_money !== null && row.prize_money !== 0, '懸賞金額') ||
+            !check(row.warning !== null && row.warning !== '', '要注意情報'))
+            return;
+        // save
+        row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
+        const urlPart = row.IsForAddedDataRow ? `POST` : `PUT`;
+        ServerFlow.Execute({
+            // TODO: reqMethod: 'put',
+            reqMethod: 'post',
+            url: `http://localhost:3000/${urlPart}/wanteds`,
+            data: {
+                wanteds: [row]
+            }
+        })
+        .done((result: any, textStatus: any, jqXHR: any, ) => {
+            const currentRows: Row[] = this.rows;
+            const target: TrWanted = result.wanteds[0];
+            const targetRow: Row | undefined = currentRows.find(r => r.uuid === target.uuid);
+            if(targetRow) {
+                targetRow.EntityToRow(target);
+            }
+        })
+        .catch((error: any) => {
+            // console.log(`error at server-request : ${JSON.stringify(error)}`);
+            alert('error');
         });
     }
 
@@ -108,9 +135,9 @@ export default class BingoBookBehind {
                 !filename.toLowerCase().match('.gif$'))
                 return alert('画像ファイルを選択して下さい。[.jpeg| .jpg| .png| .gif]');
             fr.onload = (e) => {
-                row.image = `${fr.result}`;
+                row.image_base64 = `${fr.result}`;
             };
-            fr.readAsDataURL(files[0]);
+            fr.readAsDataURL(file);
         };
     }
     public SelectImage() {
@@ -118,7 +145,7 @@ export default class BingoBookBehind {
             this.selectImageLazyEvent();
     }
     public ClearImage(ev: any, row: Row) {
-        row.image = '';
+        row.image_base64 = '';
     }
 }
 
@@ -134,8 +161,11 @@ export class Row implements ITR_Wanted {
     public revision!: number;
     public name!: string;
     public prize_money!: number;
-    public image!: string;
+    //public image!: Blob;
+    public image_base64!: string;
     public warning!: string;
+
+    public btn_saving_caption = '';
 
     public EntityToRow(entity: ITR_Wanted) {
         // 初期設定値
@@ -146,8 +176,10 @@ export class Row implements ITR_Wanted {
         this.revision = entity.revision;
         this.name = entity.name;
         this.prize_money = entity.prize_money;
-        this.image = entity.image;
+        // this.image = entity.image;
+        this.image_base64 = entity.image_base64;
         this.warning = entity.warning;
+        this.btn_saving_caption = this.IsForAddedDataRow ? '新規登録' : '更新';
     }
 
     public get FormattedPrizeMoney(): string {
@@ -155,12 +187,11 @@ export class Row implements ITR_Wanted {
     }
 
     public get hasImage(): boolean {
-        return this.image !== null && this.image !== '';
+        return this.image_base64 !== null && this.image_base64 !== '';
     }
-
     // 編集されている？
     public get IsDirty(): boolean {
-        return this.image !== this._entity.image ||
+        return this.image_base64 !== this._entity.image_base64 ||
                 this.name !== this._entity.name ||
                 this.prize_money !== this._entity.prize_money ||
                 this.warning !== this._entity.warning;
@@ -173,8 +204,5 @@ export class Row implements ITR_Wanted {
     // この行情報はブランク（新規登録用）？
     public get IsForAddedDataRow(): boolean {
         return this.uuid === Row.UUID_KEY__ADDED_ROW;
-    }
-    public get BtnCaption(): string {
-        return this.IsForAddedDataRow ? '新規登録' : '更新';
     }
 }

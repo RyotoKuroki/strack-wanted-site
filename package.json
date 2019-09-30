@@ -12,11 +12,13 @@
   "dependencies": {
     "@types/jquery": "^3.3.31",
     "@types/node": "^12.7.8",
+    "@types/toastr": "^2.1.37",
     "@types/typescript": "^2.0.0",
     "core-js": "^2.6.9",
     "jquery": "^3.4.1",
     "reflect-metadata": "^0.1.13",
     "register-service-worker": "^1.6.2",
+    "toastr": "^2.1.4",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",

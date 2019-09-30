@@ -21,7 +21,7 @@
                 <!-- イメージ -->
                 <img class="target-image"
                       v-bind:class="{ negativeimage: !row.hasImage, activeimage: row.hasImage }"
-                      v-bind:src="row.image" />
+                      v-bind:src="row.image_base64" />
               </div>
             </div>
             <div class="row">
@@ -80,11 +80,12 @@
                 <!-- 登録/更新 -->
                 <input type="button" class="btn btn-secondary btn-sm btn-block"
                         v-if="row.IsDirty"
-                        v-model="row.BtnCaption" />
+                        v-model="row.btn_saving_caption"
+                        v-on:click="codeBehind.SaveWanteds($event, row)" />
                 <!-- Notice -->
                 <input type="button" class="btn btn-secondary btn-sm btn-block" style="opacity: 0.1;"
                         v-if="!row.IsDirty"
-                        v-model="row.BtnCaption"
+                        v-model="row.btn_saving_caption"
                         disabled/>
                 
               </div>
