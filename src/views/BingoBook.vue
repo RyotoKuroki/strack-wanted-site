@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BingoBookBehind from '@/app.viewmodels/BingoBookBehind.ts';
+import BingoBookBehind from '@/app.codebehind/BingoBookBehind.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 
 @Component({

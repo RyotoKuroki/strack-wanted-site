@@ -4,11 +4,13 @@ import ServerFlow from '@/app.server.flows/ServerFlow';
 import TrWanted from '@/app.entities/TrWanted';
 
 export default class BingoBookBehind {
-    //protected serverFlow: ServerFlow = new ServerFlow();
+    
     public rows: Row[] = new Array<Row>();
+
     constructor() {
         this.SearchWanteds();
     }
+    
     public SearchWanteds() {
         ServerFlow.Execute({
             reqMethod: 'get',
