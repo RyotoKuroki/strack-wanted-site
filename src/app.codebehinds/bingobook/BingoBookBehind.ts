@@ -2,10 +2,11 @@ import $ from 'jquery';
 import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted';
 import ServerFlow from '@/app.server.flows/ServerFlow';
 import TrWanted from '@/app.entities/TrWanted';
+import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel';
 
 export default class BingoBookBehind {
     
-    public rows: Row[] = new Array<Row>();
+    public rows: WantedRowDesignedModel[] = new Array<WantedRowDesignedModel>();
 
     constructor() {
         this.SearchWanteds();
@@ -18,18 +19,18 @@ export default class BingoBookBehind {
             data: {}
         })
         .done((result: any) => {
-            const array = new Array<Row>();
+            const array = new Array<WantedRowDesignedModel>();
 
             // for add new-info
             const entity = new TrWanted();
-            entity.uuid = Row.UUID_KEY__HEADER_ROW;
-            const forNew = new Row();
+            entity.uuid = WantedRowDesignedModel.UUID_KEY__HEADER_ROW;
+            const forNew = new WantedRowDesignedModel();
             forNew.EntityToRow(entity);
             array.push(forNew);
             
             // for edit existing-info
             $.each(result.wanteds, (index: number, entity: any) => {
-                const row = new Row();
+                const row = new WantedRowDesignedModel();
                 row.EntityToRow(entity);
                 array.push(row);
             });
@@ -39,7 +40,7 @@ export default class BingoBookBehind {
             console.log(`error at server-request : ${error}`);
         });
     }
-    public AddNewRow(ev: any, row: Row) {
+    public AddNewRow(ev: any, row: WantedRowDesignedModel) {
         const currentRows = this.rows;
         const hasAddedDataRow = currentRows.findIndex(x => x.IsForAddedDataRow === true) >= 0;
         if(hasAddedDataRow)
@@ -47,19 +48,19 @@ export default class BingoBookBehind {
         
         // add new row
         const entity = new TrWanted();
-        entity.uuid = Row.UUID_KEY__ADDED_ROW;
-        const blank = new Row();
+        entity.uuid = WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
+        const blank = new WantedRowDesignedModel();
         blank.EntityToRow(entity);
         this.rows.push(blank);
     }
-    public DeleteRow(ev: any, row: Row) {
+    public DeleteRow(ev: any, row: WantedRowDesignedModel) {
         if(!confirm(`【${row.name}】 をターゲットから除外しますか？\r\n除外後は復元できませんのでご注意下さい。`))
             return false;
         
         const currentRows = this.rows;
 
         // 新規追加行の削除は画面上だけの対応でOK
-        if(row.uuid === Row.UUID_KEY__ADDED_ROW) {
+        if(row.uuid === WantedRowDesignedModel.UUID_KEY__ADDED_ROW) {
             this.rows = currentRows.filter(x => x.uuid !== row.uuid);
             return;
         }
@@ -68,7 +69,7 @@ export default class BingoBookBehind {
         // 既存データの削除はサーバへ削除リクエス込み
         this.DeleteWanteds(row);
     }
-    public DeleteWanteds(row: Row) {
+    public DeleteWanteds(row: WantedRowDesignedModel) {
         ServerFlow.Execute({
             reqMethod: 'delete',
             url: `http://localhost:3000/DELETE/wanteds?uuid=${row.uuid}`,
@@ -82,7 +83,7 @@ export default class BingoBookBehind {
             console.log(`error at server-request : ${error}`);
         });
     }
-    public SaveWanteds(event: any, row: Row) {
+    public SaveWanteds(event: any, row: WantedRowDesignedModel) {
         // check
         const check = (judge: boolean, msgPart: string): boolean => {
             // OK
@@ -109,21 +110,21 @@ export default class BingoBookBehind {
             }
         })
         .done((result: any, textStatus: any, jqXHR: any, ) => {
-            const currentRows: Row[] = this.rows;
+            const currentRows: WantedRowDesignedModel[] = this.rows;
             const target: TrWanted = result.wanteds[0];
-            const targetRow: Row | undefined = currentRows.find(r => r.uuid === target.uuid);
+            const targetRow: WantedRowDesignedModel | undefined = currentRows.find(r => r.uuid === target.uuid);
             if(targetRow) {
                 targetRow.EntityToRow(target);
             }
         })
         .catch((error: any) => {
-            // console.log(`error at server-request : ${JSON.stringify(error)}`);
             alert('error');
         });
     }
 
+    protected allowedImgExts = ['.jpeg', '.jpg', '.png', '.gif', ];
     protected selectImageLazyEvent: any;
-    public ClickRow(ev: any, row: Row) {
+    public ClickRow(ev: any, row: WantedRowDesignedModel) {
         this.selectImageLazyEvent = (changeEvent: any) => {
             const fr = new FileReader();
             const files = ev.target.files || ev.files;
@@ -131,11 +132,9 @@ export default class BingoBookBehind {
                 return alert('ファイルを１つ選択して下さい。');
             const file = files[0];
             const filename = `${file.name}`;
-            if(!filename.toLowerCase().match('.jpeg$') &&
-                !filename.toLowerCase().match('.jpg$') &&
-                !filename.toLowerCase().match('.png$') &&
-                !filename.toLowerCase().match('.gif$'))
-                return alert('画像ファイルを選択して下さい。[.jpeg| .jpg| .png| .gif]');
+            const niceFile = this.allowedImgExts.findIndex(x => filename.toLowerCase().endsWith(x)) >= 0;
+            if(!niceFile)
+                return alert(`画像ファイルを選択して下さい。\r\n[ ${this.allowedImgExts.join(' | ')} ]`);
             fr.onload = (e) => {
                 row.image_base64 = `${fr.result}`;
             };
@@ -146,65 +145,7 @@ export default class BingoBookBehind {
         if(this.selectImageLazyEvent)
             this.selectImageLazyEvent();
     }
-    public ClearImage(ev: any, row: Row) {
+    public ClearImage(ev: any, row: WantedRowDesignedModel) {
         row.image_base64 = '';
-    }
-}
-
-export class Row implements ITR_Wanted {
-
-    public static readonly UUID_KEY__HEADER_ROW: string = 'UUID_KEY__HEADER_ROW';
-    public static readonly UUID_KEY__ADDED_ROW: string = 'UUID_KEY__ADDED_ROW';
-
-    protected _entity!: ITR_Wanted;
-
-    public uuid!: string;
-    public whois!: string;
-    public revision!: number;
-    public name!: string;
-    public prize_money!: number;
-    //public image!: Blob;
-    public image_base64!: string;
-    public warning!: string;
-
-    public btn_saving_caption = '';
-
-    public EntityToRow(entity: ITR_Wanted) {
-        // 初期設定値
-        this._entity = entity;
-        // 画面バインドフィールド値
-        this.uuid = entity.uuid;
-        this.whois = entity.whois;
-        this.revision = entity.revision;
-        this.name = entity.name;
-        this.prize_money = entity.prize_money;
-        // this.image = entity.image;
-        this.image_base64 = entity.image_base64;
-        this.warning = entity.warning;
-        this.btn_saving_caption = this.IsForAddedDataRow ? '新規登録' : '更新';
-    }
-
-    public get FormattedPrizeMoney(): string {
-        return this.prize_money.toLocaleString();
-    }
-
-    public get hasImage(): boolean {
-        return this.image_base64 !== null && this.image_base64 !== '';
-    }
-    // 編集されている？
-    public get IsDirty(): boolean {
-        return this.image_base64 !== this._entity.image_base64 ||
-                this.name !== this._entity.name ||
-                this.prize_money !== this._entity.prize_money ||
-                this.warning !== this._entity.warning;
-    }
-
-    // この行はヘッダ用？
-    public get IsForHeader(): boolean {
-        return this.uuid === Row.UUID_KEY__HEADER_ROW;
-    }
-    // この行情報はブランク（新規登録用）？
-    public get IsForAddedDataRow(): boolean {
-        return this.uuid === Row.UUID_KEY__ADDED_ROW;
     }
 }

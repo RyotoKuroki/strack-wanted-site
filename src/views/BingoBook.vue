@@ -49,7 +49,7 @@
 
                   <!-- 情報削除 -->
                   <div class="target-cancel my-1 mx-2 p-0"
-                        @click="codeBehind.DeleteRow($event, row)">削除</div>
+                        @click="codeBehind.DeleteRow($event, row)">アイテム削除</div>
                 </u>
               </div>
             </div>
@@ -87,7 +87,6 @@
                         v-if="!row.IsDirty"
                         v-model="row.btn_saving_caption"
                         disabled/>
-                
               </div>
             </div>
           </div>
@@ -102,7 +101,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BingoBookBehind from '@/app.codebehind/BingoBookBehind.ts';
+import BingoBookBehind from '@/app.codebehinds/bingobook/BingoBookBehind.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 
 @Component({

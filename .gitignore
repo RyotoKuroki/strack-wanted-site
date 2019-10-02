@@ -23,6 +23,7 @@ yarn-error.log*
 *.sln
 *.sw?
 
-src/app.*/**/*.js
-src/app.*/**/*.d.ts
+src/**/*.js
+src/**/*.map
+src/**/*.d.ts
 

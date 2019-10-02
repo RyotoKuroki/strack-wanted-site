@@ -9,4 +9,5 @@ export default class TrWanted /*extends BaseEntity*/implements ITR_Wanted {
     //public image: Blob = new Blob();
     public image_base64!: string;
     public warning: string = '';
+    public done: string = '';
 }
