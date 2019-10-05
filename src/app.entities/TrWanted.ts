@@ -1,6 +1,6 @@
-import ITR_Wanted from '../app.entities.interfaces/ITR_Wanted';
+import ITR_Wanted from 'strack-wanted-meta/src/entities/ITR_Wanted';
 
-export default class TrWanted /*extends BaseEntity*/implements ITR_Wanted {
+export default class TrWanted implements ITR_Wanted {
     public uuid: string = '';
     public whois: string = '';
     public enabled: string = 'enable';

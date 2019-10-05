@@ -12,7 +12,6 @@ export default class ServerFlow {
         }, opts);
         const ajx = $.ajax({
             url: opts.url,
-            // type: opts.post ? 'post' : 'get',
             type: opts.reqMethod,
             dataType: 'json',
             data: opts.data,

@@ -1,5 +1,5 @@
 <template>
-  <div class="bingoBook container">
+  <div class="bingoBook container" id="bingoBook">
     <div class="row">
       <div class="col-12">
         <div class="row" v-for="(row, uuid) in codeBehind.rows" :key="uuid">
@@ -117,39 +117,38 @@ export default class BingoBook extends Vue {
 </script>
 
 <style>
-.target-cancel {
+#bingoBook .target-cancel {
   font-size: x-small;
   color: gray;
   width: 80px;
 }
-.target-image {
+#bingoBook .target-image {
   width:100%;
   height:100%;
   min-height: 138px;
   min-width: 100px;
   background: #aaa;
 }
-.target-image-btn {
+#bingoBook .target-image-btn {
   width: 92%;
 }
-.target-image {
+#bingoBook .target-image {
   width: 98%;
 }
-input[type=text],
-input[type=number] {
+#bingoBook input[type=text],
+#bingoBook input[type=number] {
   height: 25px;
   width: 98%;
   margin: 0;
 }
-.target-image-label {
+#bingoBook .target-image-label {
   padding: 0 1rem;
   border: solid 1px #888;
 }
-.negativeimage {
+#bingoBook .negativeimage {
   opacity: 0.4;
 }
-.activeimage {
+#bingoBook .activeimage {
   opacity: 1;
 }
-
 </style>

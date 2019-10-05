@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted.ts';
+import ITR_Wanted from 'strack-wanted-meta/src/entities/ITR_Wanted';
 
 /**
  * テーブルの構造を基に、画面バインドに適した構造に整形したモデル。

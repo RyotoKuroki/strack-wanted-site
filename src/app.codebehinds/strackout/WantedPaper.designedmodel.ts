@@ -1,5 +1,5 @@
 // import $ from 'jquery';
-import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted';
+import ITR_Wanted from 'strack-wanted-meta/src/entities/ITR_Wanted';
 
 /**
  * テーブルの構造を基に、画面バインドに適した構造に整形したモデル。
@@ -34,5 +34,9 @@ export default class WantedPaperDesignedModel implements ITR_Wanted {
         this.image_base64 = entity.image_base64;
         this.warning = entity.warning;
         this.done = entity.done;
+    }
+    // 対象確保済み！
+    public get IsDone(): boolean {
+        return this.done === 'done';
     }
 }

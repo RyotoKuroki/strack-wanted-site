@@ -1,5 +1,5 @@
 <template>
-  <div class="strackOut container">
+  <div class="strackOut container" id="strackOut">
     <div class="row">
       <div class="col-12 col-sm-6 col-md-4" v-for="(row, uuid) in codeBehind.papers" :key="uuid" >
         <WantedPaper
@@ -9,6 +9,7 @@
           :warning="row.warning"
           :image="row.image_base64"
           :done="row.done"
+          :is_done="row.IsDone"
           @onTouchedBubbleEvent="codeBehind.SaveDone(row)" />
       </div>
     </div>
