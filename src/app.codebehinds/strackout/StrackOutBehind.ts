@@ -15,8 +15,7 @@ export default class StrackOutBehind {
     public SearchWanteds() {
         ServerFlow.Execute({
             // reqMethod: 'post',
-            // url: 'http://localhost:3000/get-wanteds',
-            url: 'https://strack-wanted-server.azurewebsites.net/get-wanteds',
+            url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
         .done((result: any) => {
@@ -47,8 +46,7 @@ export default class StrackOutBehind {
         // wanted.whois = paper.whois;
         ServerFlow.Execute({
             // reqMethod: 'post',
-            // url: 'http://localhost:3000/done-wanteds',
-            url: 'https://strack-wanted-server.azurewebsites.net/done-wanteds',
+            url: 'http://localhost:3000/done-wanteds',
             data: { wanteds: [wanted] }
         })
         .done((result: any) => {

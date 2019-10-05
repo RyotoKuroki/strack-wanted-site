@@ -15,8 +15,7 @@ export default class BingoBookBehind {
     public SearchWanteds() {
         ServerFlow.Execute({
             // reqMethod: 'post',
-            // url: 'http://localhost:3000/get-wanteds',
-            url: 'https://strack-wanted-server.azurewebsites.net/get-wanteds',
+            url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
         .done((result: any) => {
@@ -76,8 +75,7 @@ export default class BingoBookBehind {
     public DeleteWanteds(row: WantedRowDesignedModel) {
         ServerFlow.Execute({
             // reqMethod: 'post',
-            // url: `http://localhost:3000/delete-wanteds`,
-            url: 'https://strack-wanted-server.azurewebsites.net/delete-wanteds',
+            url: `http://localhost:3000/delete-wanteds`,
             data: { wanteds: [row] }
         })
         .done((result: any) => {
@@ -114,8 +112,7 @@ export default class BingoBookBehind {
         row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
         ServerFlow.Execute({
             // reqMethod: 'post',
-            // url: `http://localhost:3000/upsert-wanteds`,
-            url: 'https://strack-wanted-server.azurewebsites.net/upsert-wanteds',
+            url: `http://localhost:3000/upsert-wanteds`,
             data: {
                 wanteds: [row]
             }
