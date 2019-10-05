@@ -33,11 +33,16 @@ export default class StrackOutBehind {
     }
 
     public SaveDone(paper: WantedPaperDesignedModel) {
-        if(!confirm(`${moment(new Date()).format('HH時mm分、')}ターゲット確保〜！？`))
+        const doneAlready = paper.IsDone;
+        const msg = doneAlready
+            ? 'ターゲット脱走！？'
+            :　`${moment(new Date()).format('HH時mm分、')}ターゲット確保〜！？`;
+        if(!confirm(msg))
             return;
         const wanted = new TrWanted();
         wanted.uuid = paper.uuid;
         wanted.revision = paper.revision;
+        wanted.done = doneAlready ? '' : 'done';
         // wanted.whois = paper.whois;
         ServerFlow.Execute({
             // reqMethod: 'post',
