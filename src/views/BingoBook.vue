@@ -108,7 +108,7 @@ import TrWanted from '@/app.entities/TrWanted.ts';
 })
 export default class BingoBook extends Vue {
 
-  codeBehind = new BingoBookBehind();
+  protected codeBehind = new BingoBookBehind();
 
   constructor() {
     super();

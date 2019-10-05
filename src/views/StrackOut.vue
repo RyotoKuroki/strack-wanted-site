@@ -30,7 +30,7 @@ import TrWanted from '@/app.entities/TrWanted.ts';
 })
 export default class StrackOut extends Vue {
 
-  codeBehind = new StrackOutBehind();
+  protected codeBehind = new StrackOutBehind();
 
   constructor() {
     super();

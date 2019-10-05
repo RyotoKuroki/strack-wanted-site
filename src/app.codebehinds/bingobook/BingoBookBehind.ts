@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted';
-import ServerFlow from '@/app.server.flows/ServerFlow';
+import moment from 'moment';
+import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel.ts';
 
@@ -14,7 +14,7 @@ export default class BingoBookBehind {
     
     public SearchWanteds() {
         ServerFlow.Execute({
-            reqMethod: 'post',
+            // reqMethod: 'post',
             url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
@@ -37,7 +37,7 @@ export default class BingoBookBehind {
             this.rows = array;
         })
         .catch((error: any) => {
-            console.log(`error at server-request : ${error}`);
+            alert(`error(get-wanteds)`);
         });
     }
     public AddNewRow(ev: any, row: WantedRowDesignedModel) {
@@ -51,7 +51,6 @@ export default class BingoBookBehind {
         entity.uuid = WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
         const blank = new WantedRowDesignedModel();
         blank.EntityToRow(entity);
-        //this.rows.push(blank);
         // 明細の末尾（追加行よりは上）に追加
         this.rows.splice(this.rows.length-1, 0, blank);
         // 最下部へスクロール！
@@ -75,7 +74,7 @@ export default class BingoBookBehind {
     }
     public DeleteWanteds(row: WantedRowDesignedModel) {
         ServerFlow.Execute({
-            reqMethod: 'post',
+            // reqMethod: 'post',
             url: `http://localhost:3000/delete-wanteds`,
             data: { wanteds: [row] }
         })
@@ -91,7 +90,7 @@ export default class BingoBookBehind {
             this.rows = currentRows.filter(x => x.enabled !== 'disable');
         })
         .catch((error: any) => {
-            console.log(`error at server-request : ${error}`);
+            alert(`error(delete-wanteds)`);
         });
     }
     public SaveWanteds(event: any, row: WantedRowDesignedModel) {
@@ -112,7 +111,7 @@ export default class BingoBookBehind {
         // save
         row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
         ServerFlow.Execute({
-            reqMethod: 'post',
+            // reqMethod: 'post',
             url: `http://localhost:3000/upsert-wanteds`,
             data: {
                 wanteds: [row]
@@ -128,7 +127,7 @@ export default class BingoBookBehind {
                 row.EntityToRow(entity);
         })
         .catch((error: any) => {
-            alert('error');
+            alert(`error(upsert-wanteds)`);
         });
     }
 

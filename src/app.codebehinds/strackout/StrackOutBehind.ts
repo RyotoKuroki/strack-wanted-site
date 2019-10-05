@@ -1,13 +1,11 @@
 import $ from 'jquery';
 import moment from 'moment';
-// import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted';
 import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
 
 export default class StrackOutBehind {
 
-    //protected serverFlow: ServerFlow = new ServerFlow();
     public papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
 
     constructor() {
@@ -16,7 +14,7 @@ export default class StrackOutBehind {
     
     public SearchWanteds() {
         ServerFlow.Execute({
-            reqMethod: 'post',
+            // reqMethod: 'post',
             url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
@@ -30,29 +28,31 @@ export default class StrackOutBehind {
             this.papers = array;
         })
         .catch((error: any) => {
-            console.log(`error at server-request : ${error}`);
+            alert(`error(get-wanteds)`);
         });
     }
 
     public SaveDone(paper: WantedPaperDesignedModel) {
         if(!confirm(`${moment(new Date()).format('HH時mm分、')}ターゲット確保〜！？`))
             return;
-        paper.done = 'done';
+        const wanted = new TrWanted();
+        wanted.uuid = paper.uuid;
+        wanted.revision = paper.revision;
+        // wanted.whois = paper.whois;
         ServerFlow.Execute({
-            reqMethod: 'post',
+            // reqMethod: 'post',
             url: 'http://localhost:3000/done-wanteds',
-            data: { wanteds: paper }
+            data: { wanteds: [wanted] }
         })
         .done((result: any) => {
             const currentRows: WantedPaperDesignedModel[] = this.papers;
             const target: TrWanted = result.wanteds[0];
-            const targetRow: WantedPaperDesignedModel | undefined = currentRows.find(r => r.uuid === target.uuid);
-            if(targetRow) {
+            const targetRow = currentRows.find(r => r.uuid === target.uuid);
+            if(targetRow)
                 targetRow.EntityToRow(target);
-            }
         })
         .catch((error: any) => {
-            console.log(`error at server-request : ${error}`);
+            alert(`error(done-wanteds)`);
         });
     }
 }

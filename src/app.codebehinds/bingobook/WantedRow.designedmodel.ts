@@ -1,7 +1,5 @@
 import $ from 'jquery';
 import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted.ts';
-// import ServerFlow from '@/app.server.flows/ServerFlow';
-// import TrWanted from '@/app.entities/TrWanted';
 
 /**
  * テーブルの構造を基に、画面バインドに適した構造に整形したモデル。
