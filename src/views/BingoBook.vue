@@ -123,17 +123,14 @@ export default class BingoBook extends Vue {
   width: 80px;
 }
 #bingoBook .target-image {
-  width:100%;
-  height:100%;
+  width:98%;
+  height:98%;
   min-height: 138px;
   min-width: 100px;
   background: #aaa;
 }
 #bingoBook .target-image-btn {
   width: 92%;
-}
-#bingoBook .target-image {
-  width: 98%;
 }
 #bingoBook input[type=text],
 #bingoBook input[type=number] {
