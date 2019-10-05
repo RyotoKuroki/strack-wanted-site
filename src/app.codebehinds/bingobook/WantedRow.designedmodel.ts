@@ -9,13 +9,14 @@ import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted.ts';
  */
 export default class WantedRowDesignedModel implements ITR_Wanted {
 
-    public static readonly UUID_KEY__HEADER_ROW: string = 'UUID_KEY__HEADER_ROW';
+    public static readonly UUID_KEY__BUTTON_ROW: string = 'UUID_KEY__BUTTON_ROW';
     public static readonly UUID_KEY__ADDED_ROW: string = 'UUID_KEY__ADDED_ROW';
 
     protected _entity!: ITR_Wanted;
 
     public uuid!: string;
     public whois!: string;
+    public enabled!: string;
     public revision!: number;
     public name!: string;
     public prize_money!: number;
@@ -31,6 +32,7 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
         // 画面バインドフィールド値
         this.uuid = entity.uuid;
         this.whois = entity.whois;
+        this.enabled = entity.enabled;
         this.revision = entity.revision;
         this.name = entity.name;
         this.prize_money = entity.prize_money;
@@ -56,8 +58,8 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
     }
 
     // この行はヘッダ用？
-    public get IsForHeader(): boolean {
-        return this.uuid === WantedRowDesignedModel.UUID_KEY__HEADER_ROW;
+    public get IsForButton(): boolean {
+        return this.uuid === WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
     }
     // この行情報はブランク（新規登録用）？
     public get IsForAddedDataRow(): boolean {

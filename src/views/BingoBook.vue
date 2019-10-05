@@ -2,19 +2,12 @@
   <div class="bingoBook container">
     <div class="row">
       <div class="col-12">
-        
         <div class="row" v-for="(row, uuid) in codeBehind.rows" :key="uuid">
-          
-          <!-- ▼新規追加用の表示行 -->
-          <div v-if="row.IsForHeader" class="col-12">
-            <!-- 追加用ボタンのみ表示 -->
-            <input type="button" value="Add new item !" class="btn btn-info btn-block m-0"
-                    @click="codeBehind.AddNewRow($event, row)" />
-            <hr class="mt-4" style="color: lightgray;" />
+          <div  v-if="!row.IsForButton" class="col-12">
+            <hr class="m-1 p-0" style="color: gray;" />
           </div>
-
           <!-- ▼既存情報の編集用の表示行 -->
-          <div v-if="!row.IsForHeader" class="col-4 col-sm-4">
+          <div v-if="!row.IsForButton" class="col-4 col-sm-4">
             <div class="row">
               <div class="col-12">
 
@@ -42,13 +35,13 @@
               </div>
             </div>
           </div>
-          <div v-if="!row.IsForHeader" class="col-8 col-sm-8">
+          <div v-if="!row.IsForButton" class="col-8 col-sm-8">
             <div class="row">
-              <div class="col-12 col-sm-12 text-right">
+              <div class="col-12 col-sm-12">
                 <u>
 
                   <!-- 情報削除 -->
-                  <div class="target-cancel my-1 mx-2 p-0"
+                  <div class="target-cancel my-1 mx-2 p-0 float-right"
                         @click="codeBehind.DeleteRow($event, row)">アイテム削除</div>
                 </u>
               </div>
@@ -90,8 +83,12 @@
               </div>
             </div>
           </div>
-          <div  v-if="!row.IsForHeader" class="col-12">
-            <hr class="m-1 p-0" style="color: gray;" />
+          <!-- ▼新規追加用の表示行 -->
+          <div v-if="row.IsForButton" class="col-12">
+            <hr class="my-4" style="color: lightgray;" />
+            <!-- 追加用ボタンのみ表示 -->
+            <input type="button" value="Add new item !" class="btn btn-info btn-lg btn-block mb-4"
+                    @click="codeBehind.AddNewRow($event, row)" />
           </div>
         </div>
       </div>
@@ -123,6 +120,7 @@ export default class BingoBook extends Vue {
 .target-cancel {
   font-size: x-small;
   color: gray;
+  width: 80px;
 }
 .target-image {
   width:100%;

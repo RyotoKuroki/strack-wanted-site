@@ -11,6 +11,7 @@ export default class WantedPaperDesignedModel implements ITR_Wanted {
 
     public uuid!: string;
     public whois!: string;
+    public enabled!: string;
     public revision!: number;
     public name!: string;
     public prize_money!: number;
@@ -26,6 +27,7 @@ export default class WantedPaperDesignedModel implements ITR_Wanted {
         // 画面バインドフィールド値
         this.uuid = entity.uuid;
         this.whois = entity.whois;
+        this.enabled = entity.enabled;
         this.revision = entity.revision;
         this.name = entity.name;
         this.prize_money = entity.prize_money;

@@ -1,5 +1,5 @@
 <template>
-  <div class="rowView">
+  <div class="wantedRow">
     <div class="row" v-if="uuid">
       <div class="col-4 p-1">
         <div class="target-image">{{ image }}</div>
@@ -41,7 +41,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 // import Row from '@/app.viewmodels/BingoBookBehind';
 
 @Component
-export default class RowView extends Vue {
+export default class WantedRow extends Vue {
   @Prop() private uuid: string = '';
   @Prop() private name: string = '';
   @Prop() private prize_mmoney: number = 0;

@@ -16,8 +16,8 @@ export default class StrackOutBehind {
     
     public SearchWanteds() {
         ServerFlow.Execute({
-            reqMethod: 'get',
-            url: 'http://localhost:3000/GET/wanteds',
+            reqMethod: 'post',
+            url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
         .done((result: any) => {
@@ -40,7 +40,7 @@ export default class StrackOutBehind {
         paper.done = 'done';
         ServerFlow.Execute({
             reqMethod: 'post',
-            url: 'http://localhost:3000/POST/wanteds',
+            url: 'http://localhost:3000/done-wanteds',
             data: { wanteds: paper }
         })
         .done((result: any) => {

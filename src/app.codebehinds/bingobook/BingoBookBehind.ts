@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import ITR_Wanted from '@/app.entities.interfaces/ITR_Wanted';
 import ServerFlow from '@/app.server.flows/ServerFlow';
-import TrWanted from '@/app.entities/TrWanted';
-import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel';
+import TrWanted from '@/app.entities/TrWanted.ts';
+import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel.ts';
 
 export default class BingoBookBehind {
     
@@ -14,26 +14,26 @@ export default class BingoBookBehind {
     
     public SearchWanteds() {
         ServerFlow.Execute({
-            reqMethod: 'get',
-            url: 'http://localhost:3000/GET/wanteds',
+            reqMethod: 'post',
+            url: 'http://localhost:3000/get-wanteds',
             data: {}
         })
         .done((result: any) => {
             const array = new Array<WantedRowDesignedModel>();
 
-            // for add new-info
-            const entity = new TrWanted();
-            entity.uuid = WantedRowDesignedModel.UUID_KEY__HEADER_ROW;
-            const forNew = new WantedRowDesignedModel();
-            forNew.EntityToRow(entity);
-            array.push(forNew);
-            
             // for edit existing-info
             $.each(result.wanteds, (index: number, entity: any) => {
                 const row = new WantedRowDesignedModel();
                 row.EntityToRow(entity);
                 array.push(row);
             });
+            // for add new-info
+            const entity = new TrWanted();
+            entity.uuid = WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
+            const forNew = new WantedRowDesignedModel();
+            forNew.EntityToRow(entity);
+            array.push(forNew);
+            
             this.rows = array;
         })
         .catch((error: any) => {
@@ -51,7 +51,11 @@ export default class BingoBookBehind {
         entity.uuid = WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
         const blank = new WantedRowDesignedModel();
         blank.EntityToRow(entity);
-        this.rows.push(blank);
+        //this.rows.push(blank);
+        // 明細の末尾（追加行よりは上）に追加
+        this.rows.splice(this.rows.length-1, 0, blank);
+        // 最下部へスクロール！
+        $('html, body').animate({ scrollTop: $(document).height() }, 900);
     }
     public DeleteRow(ev: any, row: WantedRowDesignedModel) {
         if(!confirm(`【${row.name}】 をターゲットから除外しますか？\r\n除外後は復元できませんのでご注意下さい。`))
@@ -71,13 +75,20 @@ export default class BingoBookBehind {
     }
     public DeleteWanteds(row: WantedRowDesignedModel) {
         ServerFlow.Execute({
-            reqMethod: 'delete',
-            url: `http://localhost:3000/DELETE/wanteds?uuid=${row.uuid}`,
-            data: {}
+            reqMethod: 'post',
+            url: `http://localhost:3000/delete-wanteds`,
+            data: { wanteds: [row] }
         })
         .done((result: any) => {
-            const currentRows = this.rows;
-            this.rows = currentRows.filter(x => x.uuid !== row.uuid);
+            const currentRows: WantedRowDesignedModel[] = this.rows;
+            const entity: TrWanted = result.wanteds[0];
+            // 削除情報をマージ
+            const row = currentRows.find(r => r.uuid === entity.uuid) ||
+                        currentRows.find(r => r.uuid === '');
+            if(row)
+                row.EntityToRow(entity);
+            // 表示上から削除
+            this.rows = currentRows.filter(x => x.enabled !== 'disable');
         })
         .catch((error: any) => {
             console.log(`error at server-request : ${error}`);
@@ -100,22 +111,21 @@ export default class BingoBookBehind {
             return;
         // save
         row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
-        const urlPart = row.IsForAddedDataRow ? `POST` : `PUT`;
         ServerFlow.Execute({
-            // TODO: reqMethod: 'put',
             reqMethod: 'post',
-            url: `http://localhost:3000/${urlPart}/wanteds`,
+            url: `http://localhost:3000/upsert-wanteds`,
             data: {
                 wanteds: [row]
             }
         })
         .done((result: any, textStatus: any, jqXHR: any, ) => {
             const currentRows: WantedRowDesignedModel[] = this.rows;
-            const target: TrWanted = result.wanteds[0];
-            const targetRow: WantedRowDesignedModel | undefined = currentRows.find(r => r.uuid === target.uuid);
-            if(targetRow) {
-                targetRow.EntityToRow(target);
-            }
+            const entity: TrWanted = result.wanteds[0];
+            // 修正行を抽出
+            const row = currentRows.find(r => r.uuid === entity.uuid) ||
+                        currentRows.find(r => r.uuid === '');
+            if(row)
+                row.EntityToRow(entity);
         })
         .catch((error: any) => {
             alert('error');
