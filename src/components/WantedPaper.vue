@@ -60,13 +60,13 @@ export default class WantedPaper extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 #wantedPaper .image-bg{
-  position: relative; /* Done 時のレイヤー用 */
+  position: relative; /* Done 時のレイヤー用（レイヤー適用範囲） */
   min-height: 320px;
   min-width: 230px;
   border: solid 1px lightgray;
 }
 #wantedPaper .done-layer {
-  position: absolute;
+  position: absolute; /* Done 時のレイヤー用（レイヤー本体） */
   background: black;
   opacity: 0.75;
   width: 100%;
