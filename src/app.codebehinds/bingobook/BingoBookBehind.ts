@@ -104,9 +104,7 @@ export default class BingoBookBehind {
             return false;
         };
         if (!check(row.hasImage, '画像') ||
-            !check(row.name !== null && row.name !== '', 'ターゲット名') ||
-            !check(row.prize_money !== null && row.prize_money !== 0, '懸賞金額') ||
-            !check(row.warning !== null && row.warning !== '', '要注意情報'))
+            !check(row.name !== null && row.name !== '', 'ターゲット名'))
             return;
         // save
         row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
