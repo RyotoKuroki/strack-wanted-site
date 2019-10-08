@@ -8,7 +8,7 @@ export default class ServerFlow {
 
         opts = $.extend(true, {
             reqMethod: 'post',
-            timeout: 1000 * 4
+            timeout: 1000 * 5
         }, opts);
         const ajx = $.ajax({
             url: opts.url,
