@@ -89,11 +89,5 @@ export default class WantedPaper extends Vue {
   max-width: 75%;
   min-height: 75%;
   max-height: 75%;
-  /*
-  margin:auto;
-  margin-top: 70px;
-  min-width:120px;
-  min-height: 120px;
-  */
 }
 </style>

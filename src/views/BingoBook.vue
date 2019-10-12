@@ -13,7 +13,7 @@
 
                 <!-- イメージ -->
                 <img class="target-image"
-                      v-bind:class="{ negativeimage: !row.hasImage, activeimage: row.hasImage }"
+                      v-bind:class="{ negativeimage: !row.HasImage, activeimage: row.HasImage }"
                       v-bind:src="row.image_base64" />
               </div>
             </div>

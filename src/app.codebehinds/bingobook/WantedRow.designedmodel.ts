@@ -44,7 +44,7 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
         return this.prize_money.toLocaleString();
     }
 
-    public get hasImage(): boolean {
+    public get HasImage(): boolean {
         return this.image_base64 !== null && this.image_base64 !== '';
     }
     // 編集されている？

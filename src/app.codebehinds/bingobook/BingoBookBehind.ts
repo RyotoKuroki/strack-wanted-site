@@ -6,12 +6,20 @@ import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.design
 
 export default class BingoBookBehind {
     
+    /**
+     * 表示データ１行分のモデル
+     */
     public rows: WantedRowDesignedModel[] = new Array<WantedRowDesignedModel>();
 
+    /**
+     * コンストラクタ
+     */
     constructor() {
         this.SearchWanteds();
     }
-    
+    /**
+     * 表示データ検索
+     */
     public SearchWanteds() {
         ServerFlow.Execute({
             // reqMethod: 'post',
@@ -21,13 +29,13 @@ export default class BingoBookBehind {
         .done((result: any) => {
             const array = new Array<WantedRowDesignedModel>();
 
-            // for edit existing-info
+            // 取得データを、画面バインド用情報へマージ
             $.each(result.wanteds, (index: number, entity: any) => {
                 const row = new WantedRowDesignedModel();
                 row.EntityToRow(entity);
                 array.push(row);
             });
-            // for add new-info
+            // 「新規追加」ボタンを表示するためのモックデータを作成
             const entity = new TrWanted();
             entity.uuid = WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
             const forNew = new WantedRowDesignedModel();
@@ -40,22 +48,35 @@ export default class BingoBookBehind {
             alert(`error(get-wanteds)`);
         });
     }
+    /**
+     * 新行追加。
+     * ただし、既に新行が存在する場合はNGとする。。。
+     * @param ev 
+     * @param row 
+     */
     public AddNewRow(ev: any, row: WantedRowDesignedModel) {
         const currentRows = this.rows;
         const hasAddedDataRow = currentRows.findIndex(x => x.IsForAddedDataRow === true) >= 0;
         if(hasAddedDataRow)
             return alert('既に新規追加アイテムが存在します。');
         
-        // add new row
+        // 最下行（「新規追加」ボタンよりは上）に、ブランク行を追加
         const entity = new TrWanted();
         entity.uuid = WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
         const blank = new WantedRowDesignedModel();
         blank.EntityToRow(entity);
-        // 明細の末尾（追加行よりは上）に追加
         this.rows.splice(this.rows.length-1, 0, blank);
+
         // 最下部へスクロール！
         $('html, body').animate({ scrollTop: $(document).height() }, 900);
     }
+    /**
+     * 行削除。
+     * 新規追加された行を削除する場合は、画面上から消すだけ（サーバへリクエストはしない）。
+     * 既存データ行を削除する場合は、サーバにリクエストも実施。
+     * @param ev 
+     * @param row 
+     */
     public DeleteRow(ev: any, row: WantedRowDesignedModel) {
         if(!confirm(`【${row.name}】 をターゲットから除外しますか？\r\n除外後は復元できませんのでご注意下さい。`))
             return false;
@@ -72,6 +93,10 @@ export default class BingoBookBehind {
         // 既存データの削除はサーバへ削除リクエス込み
         this.DeleteWanteds(row);
     }
+    /**
+     * 行削除のサーバリクエスト部分。
+     * @param row 
+     */
     public DeleteWanteds(row: WantedRowDesignedModel) {
         ServerFlow.Execute({
             // reqMethod: 'post',
@@ -93,6 +118,11 @@ export default class BingoBookBehind {
             alert(`error(delete-wanteds)`);
         });
     }
+    /**
+     * 行データ登録。
+     * @param event 
+     * @param row 
+     */
     public SaveWanteds(event: any, row: WantedRowDesignedModel) {
         // check
         const check = (judge: boolean, msgPart: string): boolean => {
@@ -103,7 +133,7 @@ export default class BingoBookBehind {
             alert(`${msgPart}を設定して下さい。`);
             return false;
         };
-        if (!check(row.hasImage, '画像') ||
+        if (!check(row.HasImage, '画像') ||
             !check(row.name !== null && row.name !== '', 'ターゲット名'))
             return;
         // save
@@ -129,10 +159,30 @@ export default class BingoBookBehind {
         });
     }
 
+    /**
+     * アップロードの許可された画像拡張子リスト。
+     */
     protected allowedImgExts = ['.jpeg', '.jpg', '.png', '.gif', ];
-    protected selectImageLazyEvent: any;
+    /**
+     * 画像アップロード処理の実態イベントハンドラ。
+     * 必要な理由・・
+     * 　「画像選択」クリック時、①Clickイベント、②Changeイベント（引数は固定）の順でイベントが発生する。
+     * 　今回、行ごとに画像選択可能とする仕様のため、「どの行に適用するか」を特定する必要がある。
+     * 　問題となるのが、②Changeイベントでは、画面から選択行を引数に渡すことができず、行の特定ができないこと。
+     * 　そのため、①Clickイベントの時点で行を特定し、処理をハンドルしておく。
+     * 　これで、その後発火する②Change処理では、特定済みの行に対して画像情報を設定することが可能となる。
+     */
+    protected selectImageLazyEventHandler: any;
+    /**
+     * 「画像選択」クリック時イベント。
+     * Changeイベント発火時に実施するべき処理をハンドルする。
+     * @param ev 
+     * @param row 
+     */
     public ClickRow(ev: any, row: WantedRowDesignedModel) {
-        this.selectImageLazyEvent = (changeEvent: any) => {
+
+        // イベントハンドラに処理を登録
+        this.selectImageLazyEventHandler = (changeEvent: any) => {
             const fr = new FileReader();
             const files = ev.target.files || ev.files;
             if(!files || files.length === 0)
@@ -148,10 +198,19 @@ export default class BingoBookBehind {
             fr.readAsDataURL(file);
         };
     }
+    /**
+     * 「画像選択」クリック時イベント：①Clickイベント
+     */
     public SelectImage() {
-        if(this.selectImageLazyEvent)
-            this.selectImageLazyEvent();
+        // Clickイベント内でハンドルされた処理を実施。
+        if(this.selectImageLazyEventHandler)
+            this.selectImageLazyEventHandler();
     }
+    /**
+     * 画像クリア処理
+     * @param ev 
+     * @param row 
+     */
     public ClearImage(ev: any, row: WantedRowDesignedModel) {
         row.image_base64 = '';
     }
