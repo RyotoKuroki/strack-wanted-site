@@ -44,10 +44,11 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
         return this.prize_money.toLocaleString();
     }
 
+    // 画像が設定されている？
     public get HasImage(): boolean {
         return this.image_base64 !== null && this.image_base64 !== '';
     }
-    // 編集されている？
+    // １つ以上の項目が編集されている？
     public get IsDirty(): boolean {
         return this.image_base64 !== this._entity.image_base64 ||
                 this.name !== this._entity.name ||
@@ -55,11 +56,11 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
                 this.warning !== this._entity.warning;
     }
 
-    // この行はヘッダ用？
+    // この行は「新規追加」ボタン用の行情報？
     public get IsForButton(): boolean {
         return this.uuid === WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
     }
-    // この行情報はブランク（新規登録用）？
+    // この行は、新規追加されたブランク行情報？
     public get IsForAddedDataRow(): boolean {
         return this.uuid === WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
     }
