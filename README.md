@@ -34,7 +34,7 @@ npm run lint
 ビンゴブックのページでマスタ情報を登録します。<br>
 すトラックアウトのページで、画像をタッチすると『Done！』が表示されます。<br>
 あたった缶をひとつずつパンチアウトしていくすトラックアウト風にしたかったです（笑）。<br>
-![Kazam_screenshot_00002](https://user-images.githubusercontent.com/49635377/66712816-8071ae80-eddd-11e9-824c-8872436efa1e.png)
+![Kazam_screenshot_00003](https://user-images.githubusercontent.com/49635377/66712853-00981400-edde-11e9-832b-2b1906ec392f.png)
 
 
 <br>
