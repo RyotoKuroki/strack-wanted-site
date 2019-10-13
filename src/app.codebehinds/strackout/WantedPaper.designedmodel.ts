@@ -35,7 +35,7 @@ export default class WantedPaperDesignedModel implements ITR_Wanted {
         this.warning = entity.warning;
         this.done = entity.done;
     }
-    // 対象確保済み！
+    // ターゲット確保済み！？
     public get IsDone(): boolean {
         return this.done === 'done';
     }
