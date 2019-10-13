@@ -29,6 +29,7 @@ npm run lint
 <br>
 
 [サイト紹介]<br>
+https://strack-wanted-site.azurewebsites.net/<br>
 もともとは、ルパン缶コーヒーをコンプリートするために作ったサイトです。<br>
 使い方は、<br>
 ビンゴブックのページでマスタ情報を登録します。<br>
