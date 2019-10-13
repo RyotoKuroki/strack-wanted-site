@@ -21,25 +21,21 @@ npm run serve
 npm run build
 ```
 
-~~### Run your tests~~　※未実装<br>
-~~```~~
-~~npm run test~~
-~~```~~
-
 ### Lints and fixes files
 ```
 npm run lint
 ```
 
-~~### Run your end-to-end tests~~　※未実装<br>
-~~```~~
-~~npm run test:e2e~~
-~~```~~
+// TODO: ↓need implemention<br>
 
-~~### Run your unit tests~~　※未実装<br>
-~~```~~
+~~### Run your tests~~<br>
+~~npm run test~~
+
+~~### Run your end-to-end tests~~<br>
+~~npm run test:e2e~~
+
+~~### Run your unit tests~~<br>
 ~~npm run test:unit~~
-~~```~~
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
