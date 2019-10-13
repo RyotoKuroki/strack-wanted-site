@@ -33,7 +33,7 @@ npm run lint
 使い方は、<br>
 ビンゴブックのページでマスタ情報を登録します。<br>
 すトラックアウトのページで、画像をタッチすると『Done！』が表示されます。<br>
-あたった缶をひとつずつパンチアウトしていくすトラックアウト風にしたかったんです。（笑）<br>
+あたった缶をひとつずつパンチアウトしていく "ストラックアウト" 風にしたかったんです。（笑）<br>
 https://strack-wanted-site.azurewebsites.net/<br>
 
 ![Kazam_screenshot_00003](https://user-images.githubusercontent.com/49635377/66712853-00981400-edde-11e9-832b-2b1906ec392f.png)
