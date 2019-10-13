@@ -27,6 +27,17 @@ npm run lint
 ```
 <br>
 <br>
+[サイト紹介]<br>
+もともとは、ルパン缶コーヒーをコンプリートするために作ったサイトです。<br>
+使い方は、<br>
+ビンゴブックのページでマスタ情報を登録します。<br>
+すトラックアウトのページで、画像をタッチすると『Done！』が表示されます。<br>
+あたった缶をひとつずつパンチアウトしていくすトラックアウト風にしたかったです（笑）。<br>
+<br>
+![Kazam_screenshot_00002](https://user-images.githubusercontent.com/49635377/66712716-dc3b3800-eddb-11e9-89ef-d04dd1670953.png)
+
+<br>
+<br>
 // TODO: ↓need implemention<br>
 
 ~~### Run your tests~~<br>
