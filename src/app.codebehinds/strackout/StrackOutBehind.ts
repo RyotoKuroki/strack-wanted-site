@@ -3,8 +3,20 @@ import moment from 'moment';
 import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
+import { BrowserCacheDifinitions } from '../difinitions/difinitions';
+import { DoneStatesConsts } from '@/app.consts/states/states.done';
 
 export default class StrackOutBehind {
+
+    protected DoneStates = DoneStatesConsts();
+    /**
+     * 誰の情報を抽出するかの指定。
+     * Account ページのユーザ名。
+     * エンティティの Whois フィールドを標的にする。
+     */
+    protected get _Whois(): string {
+        return localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+    }
 
     public papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
 
@@ -16,7 +28,9 @@ export default class StrackOutBehind {
         ServerFlow.Execute({
             // reqMethod: 'post',
             url: 'get-wanteds',
-            data: {}
+            data: {
+                whois: this._Whois,
+            }
         })
         .done((result: any) => {
             const array = new Array<WantedPaperDesignedModel>();
@@ -42,12 +56,15 @@ export default class StrackOutBehind {
         const wanted = new TrWanted();
         wanted.uuid = paper.uuid;
         wanted.revision = paper.revision;
-        wanted.done = doneAlready ? '' : 'done';
+        wanted.done = doneAlready ? this.DoneStates.YET : this.DoneStates.DONE;
         // wanted.whois = paper.whois;
         ServerFlow.Execute({
             // reqMethod: 'post',
             url: 'done-wanteds',
-            data: { wanteds: [wanted] }
+            data: {
+                whois: this._Whois,
+                wanteds: [wanted]
+            }
         })
         .done((result: any) => {
             const currentRows: WantedPaperDesignedModel[] = this.papers;

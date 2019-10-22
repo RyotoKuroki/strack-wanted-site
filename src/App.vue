@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">ビンゴブック</router-link> |
-      <router-link to="/strack-out">ストラックアウト</router-link>
+      <router-link to="/">ユーザ</router-link> |
+      <router-link to="/book">ブック</router-link> |
+      <router-link to="/panch-out">パンチアウト</router-link>
     </div>
     <router-view/>
   </div>

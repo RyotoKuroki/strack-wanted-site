@@ -3,9 +3,22 @@ import moment from 'moment';
 import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel.ts';
+import { BrowserCacheDifinitions } from '../difinitions/difinitions';
+import { EntityEnabledStatesConsts } from '@/app.consts/states/states.entity.enabled';
 
 export default class BingoBookBehind {
     
+    protected EntityEnabledStates = EntityEnabledStatesConsts();
+
+    /**
+     * 誰の情報を抽出するかの指定。
+     * Account ページのユーザ名。
+     * エンティティの Whois フィールドを標的にする。
+     */
+    protected get _Whois(): string {
+        return localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+    }
+
     /**
      * 表示データ１行分のモデル
      */
@@ -24,7 +37,9 @@ export default class BingoBookBehind {
         ServerFlow.Execute({
             // reqMethod: 'post',
             url: 'get-wanteds',
-            data: {}
+            data: {
+                whois: this._Whois,
+            }
         })
         .done((result: any) => {
             const array = new Array<WantedRowDesignedModel>();
@@ -84,7 +99,7 @@ export default class BingoBookBehind {
         const currentRows = this.rows;
 
         // 新規追加行の削除は画面上だけの対応でOK
-        if(row.uuid === WantedRowDesignedModel.UUID_KEY__ADDED_ROW) {
+        if(row.IsForAddedDataRow) {
             this.rows = currentRows.filter(x => x.uuid !== row.uuid);
             return;
         }
@@ -98,10 +113,14 @@ export default class BingoBookBehind {
      * @param row 
      */
     public DeleteWanteds(row: WantedRowDesignedModel) {
+        row = $.extend(true, {}, row);
         ServerFlow.Execute({
             // reqMethod: 'post',
             url: `delete-wanteds`,
-            data: { wanteds: [row] }
+            data: {
+                whois: this._Whois,
+                wanteds: [row]
+            }
         })
         .done((result: any) => {
             const currentRows: WantedRowDesignedModel[] = this.rows;
@@ -112,7 +131,7 @@ export default class BingoBookBehind {
             if(row)
                 row.EntityToRow(entity);
             // 表示上から削除
-            this.rows = currentRows.filter(x => x.enabled !== 'disable');
+            this.rows = currentRows.filter(x => x.enabled !== this.EntityEnabledStates.DISABLED);
         })
         .catch((error: any) => {
             alert(`error(delete-wanteds)`);
@@ -137,11 +156,14 @@ export default class BingoBookBehind {
             !check(row.name !== null && row.name !== '', 'ターゲット名'))
             return;
         // save
-        row.uuid = row.IsForAddedDataRow ? '' : row.uuid;
+        const uuid = row.IsForAddedDataRow ? '' : row.uuid;
+        row = $.extend(true, {}, row);
+        row.uuid = uuid;
         ServerFlow.Execute({
             // reqMethod: 'post',
             url: `upsert-wanteds`,
             data: {
+                whois: this._Whois,
                 wanteds: [row]
             }
         })

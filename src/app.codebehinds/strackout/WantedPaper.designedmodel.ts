@@ -1,5 +1,6 @@
 // import $ from 'jquery';
-import ITR_Wanted from 'strack-wanted-meta/src/entities/ITR_Wanted';
+import ITR_Wanted from 'strack-wanted-meta/src/entities/I.tr.wanted';
+import { DoneStatesConsts } from '@/app.consts/states/states.done';
 
 /**
  * テーブルの構造を基に、画面バインドに適した構造に整形したモデル。
@@ -7,6 +8,8 @@ import ITR_Wanted from 'strack-wanted-meta/src/entities/ITR_Wanted';
  */
 export default class WantedPaperDesignedModel implements ITR_Wanted {
     
+    protected DoneStates = DoneStatesConsts();
+
     protected _entity!: ITR_Wanted;
 
     public uuid!: string;
@@ -37,6 +40,6 @@ export default class WantedPaperDesignedModel implements ITR_Wanted {
     }
     // 対象確保済み！
     public get IsDone(): boolean {
-        return this.done === 'done';
+        return this.done === this.DoneStates.DONE;
     }
 }

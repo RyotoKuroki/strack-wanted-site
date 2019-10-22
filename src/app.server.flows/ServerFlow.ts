@@ -14,7 +14,6 @@ export default class ServerFlow {
         }, opts);
         const ajx = $.ajax({
             url: `http://localhost:3000/${opts.url}`,
-         // url: `https://strack-wanted-server.azurewebsites.net/${opts.url}`,
             type: opts.reqMethod,
             dataType: 'json',
             data: opts.data,
