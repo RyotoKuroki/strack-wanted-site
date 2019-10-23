@@ -2,7 +2,7 @@
   <div class="account container" id="account">
     <div class="row">
       <div class="col-12" style="font-size: x-small">
-        ※ユーザ名 sample でキャッシュ登録し、<br>ブックへ遷移すると沢山の画像が確認できます！
+        ※サンプルを見たい方は、<br>ユーザ名＝sample でキャッシュ登録し、<br>ブックへ遷移してみて下さい！
       </div>
       <div class="col-12">
         <input class="form-control" placeholder="ユーザ名を入力して下さい！"
