@@ -1,6 +1,6 @@
 // import $ from 'jquery';
 import ITR_Wanted from 'strack-wanted-meta/src/entities/I.tr.wanted';
-import { DoneStatesConsts } from '@/app.consts/states/states.done';
+import { DoneStates } from '@/app.consts/states/states.done';
 
 /**
  * テーブルの構造を基に、画面バインドに適した構造に整形したモデル。
@@ -8,7 +8,7 @@ import { DoneStatesConsts } from '@/app.consts/states/states.done';
  */
 export default class WantedPaperDesignedModel implements ITR_Wanted {
     
-    protected DoneStates = DoneStatesConsts();
+    protected DoneStates = new DoneStates();
 
     protected _entity!: ITR_Wanted;
 

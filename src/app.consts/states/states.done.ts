@@ -7,6 +7,4 @@ export class DoneStates implements IStates_Done {
 }
 
 // TODO: Metaにクラス実装した後、以下の実装は無くす
-export const DoneStatesConsts = () => {
-    return new DoneStates();
-};
+// export const DoneStatesConsts = new DoneStates();

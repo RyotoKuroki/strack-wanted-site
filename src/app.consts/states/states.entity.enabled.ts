@@ -7,6 +7,4 @@ export class EntityEnabledStates implements IStates_EntityEnabled {
 }
 
 // TODO: Metaにクラス実装した後、以下の実装は無くす
-export const EntityEnabledStatesConsts = () => {
-    return new EntityEnabledStates();
-};
+// export const EntityEnabledStatesConsts = new EntityEnabledStates();

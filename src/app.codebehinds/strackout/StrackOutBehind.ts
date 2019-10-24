@@ -3,12 +3,14 @@ import moment from 'moment';
 import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
-import { BrowserCacheDifinitions } from '../difinitions/difinitions';
-import { DoneStatesConsts } from '@/app.consts/states/states.done';
+import { BrowserCacheDifinitions } from '../../app.consts/difinitions';
+import { DoneStates } from '@/app.consts/states/states.done';
 
 export default class StrackOutBehind {
 
-    protected DoneStates = DoneStatesConsts();
+    // TODO: use static
+    protected DoneStates!: DoneStates;
+
     /**
      * 誰の情報を抽出するかの指定。
      * Account ページのユーザ名。
@@ -21,6 +23,7 @@ export default class StrackOutBehind {
     public papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
 
     constructor() {
+        this.DoneStates = new DoneStates();
         this.SearchWanteds();
     }
     

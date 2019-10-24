@@ -2,7 +2,7 @@ import $ from 'jquery';
 import moment from 'moment';
 import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrAccount from '@/app.entities/TrAccount.ts';
-import { BrowserCacheDifinitions } from '@/app.codebehinds/difinitions/difinitions.ts';
+import { BrowserCacheDifinitions } from '@/app.consts/difinitions';
 
 export default class AccountBehind {
 

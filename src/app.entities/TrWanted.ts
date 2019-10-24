@@ -1,10 +1,11 @@
 import ITR_Wanted from 'strack-wanted-meta/src/entities/I.tr.wanted';
-import { EntityEnabledStatesConsts } from '@/app.consts/states/states.entity.enabled';
+import { EntityEnabledStates } from '@/app.consts/states/states.entity.enabled';
 
 export default class TrWanted implements ITR_Wanted {
     public uuid: string = '';
     public whois: string = '';
-    public enabled: string = EntityEnabledStatesConsts().ENABLED;
+    // TODO: use static
+    public enabled: string = new EntityEnabledStates().ENABLED;
     public revision: number = 0;
     public name: string = '';
     public prize_money: number = 0;
