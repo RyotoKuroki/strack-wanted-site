@@ -121,12 +121,9 @@ export default class BingoBookBehind {
         .done((result: any) => {
             const entity: TrWanted = result.wanteds[0];
             // 削除情報をマージ
-            // const row = currentRows.find(r => r.uuid === entity.uuid) ||
-            //             currentRows.find(r => r.uuid === '');
-            // if(row)
             row.EntityToRow(entity);
             // 表示上から削除
-            this.rows = currentRows.filter(x => x.enabled !== this.EntityEnabledStates.DISABLED);
+            this.rows = currentRows.filter(x => x.enabled === this.EntityEnabledStates.ENABLED);
         })
         .catch((error: any) => {
             alert(`error(delete-wanteds)`);
@@ -163,16 +160,9 @@ export default class BingoBookBehind {
             }
         })
         .done((result: any, textStatus: any, jqXHR: any, ) => {
-            //const currentRows: WantedRowDesignedModel[] = this.rows;
             const entity: TrWanted = result.wanteds[0];
             // 修正行を抽出
-            /*
-            const row = currentRows.find(r => r.uuid === entity.uuid) ||
-                        currentRows.find(r => r.uuid === '');
-            if(row)
-                row.EntityToRow(entity);
-            */
-           row.EntityToRow(entity);
+            row.EntityToRow(entity);
         })
         .catch((error: any) => {
             alert(`error(upsert-wanteds)`);

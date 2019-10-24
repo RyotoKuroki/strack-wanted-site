@@ -70,11 +70,8 @@ export default class StrackOutBehind {
             }
         })
         .done((result: any) => {
-            const currentRows: WantedPaperDesignedModel[] = this.papers;
             const target: TrWanted = result.wanteds[0];
-            const targetRow = currentRows.find(r => r.uuid === target.uuid);
-            if(targetRow)
-                targetRow.EntityToRow(target);
+            paper.EntityToRow(target);
         })
         .catch((error: any) => {
             alert(`error(done-wanteds)`);
