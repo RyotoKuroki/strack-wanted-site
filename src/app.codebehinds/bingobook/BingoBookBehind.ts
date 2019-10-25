@@ -17,11 +17,12 @@ export default class BingoBookBehind {
      * エンティティの Whois フィールドを標的にする。
      */
     protected get _Whois(): string {
-        return localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        const temp = localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        return !temp ? '' : temp;
     }
 
     /**
-     * 表示データ１行分のモデル
+     * 表示モデルリスト
      */
     public rows: WantedRowDesignedModel[] = new Array<WantedRowDesignedModel>();
 

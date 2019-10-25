@@ -17,11 +17,18 @@ export default class StrackOutBehind {
      * エンティティの Whois フィールドを標的にする。
      */
     protected get _Whois(): string {
-        return localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        const temp = localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        return !temp ? '' : temp;
     }
 
+    /**
+     * 表示モデルリスト
+     */
     public papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
 
+    /**
+     * コンストラクタ
+     */
     constructor() {
         this.DoneStates = new DoneStates();
         this.SearchWanteds();
