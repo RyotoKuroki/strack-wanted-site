@@ -1,18 +1,25 @@
 <template>
   <div class="account container" id="account">
     <div class="row">
-      <div class="col-12" style="font-size: x-small">
-        ※サンプルを見たい方は、<br>ユーザ名＝sample でキャッシュ登録し、<br>ブックへ遷移してみて下さい！
+      <div class="col-12" style="font-size: small">
+        ※とりあえず空欄でも全然問題ありません！<br>
+        　「ブック」「パンチアウト」 へページ遷移してみて下さい。<br>
+        　画像情報が表示されるはずです！！<br><br>
+
+        　自由なユーザ名をブラウザキャッシュ登録した後、再度ページ遷移してみて下さい。<br>
+        　今度は画像情報が表示されなくなるはずです！！<br><br>
+        
+        　ユーザ名を設定すると、ユーザ固有の表示情報を設定できるようになります！！！<br>
       </div>
       <div class="col-12">
         <input class="form-control" placeholder="ユーザ名を入力して下さい！"
                v-model="codeBehind.UserName" />
       </div>
-      <div class="col-12 mt-3 mb-2">
+      <div class="col-12 mt-3 mb-2" style="display: none;">
         <img class="target-image"
              :src="codeBehind.ImageBase64" />
       </div>
-      <div class="col-12">
+      <div class="col-12" style="display: none;">
         <label>画像を選択してください<span style="color:orangered;">（工事中）</span></label>
       </div>
       <div class="col-12 my-3">
