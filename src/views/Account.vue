@@ -1,7 +1,7 @@
 <template>
   <div class="account container" id="account">
     <div class="row">
-      <div class="col-12" style="font-size: small">
+      <div class="col-12" style="font-size: x-small">
         ※とりあえず空欄でも全然問題ありません！<br>
         　「ブック」「パンチアウト」 へページ遷移してみて下さい。<br>
         　画像情報が表示されるはずです！！<br><br>
