@@ -4,12 +4,9 @@ import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
 import { BrowserCacheDifinitions } from '../../app.consts/difinitions';
-import { DoneStates } from '@/app.consts/states/states.done';
+import { DoneStates } from 'strack-wanted-meta/dist/consts/states/states.done';
 
 export default class StrackOutBehind {
-
-    // TODO: use static
-    protected DoneStates!: DoneStates;
 
     /**
      * 誰の情報を抽出するかの指定。
@@ -30,7 +27,6 @@ export default class StrackOutBehind {
      * コンストラクタ
      */
     constructor() {
-        this.DoneStates = new DoneStates();
         this.SearchWanteds();
     }
     
@@ -66,7 +62,7 @@ export default class StrackOutBehind {
         const wanted = new TrWanted();
         wanted.uuid = paper.uuid;
         wanted.revision = paper.revision;
-        wanted.done = doneAlready ? this.DoneStates.YET : this.DoneStates.DONE;
+        wanted.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
         // wanted.whois = paper.whois;
         ServerFlow.Execute({
             // reqMethod: 'post',

@@ -4,13 +4,10 @@ import ServerFlow from '@/app.server.flows/ServerFlow.ts';
 import TrWanted from '@/app.entities/TrWanted.ts';
 import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel.ts';
 import { BrowserCacheDifinitions } from '../../app.consts/difinitions';
-import { EntityEnabledStates } from '@/app.consts/states/states.entity.enabled';
+import { EntityEnableStates } from 'strack-wanted-meta/dist/consts/states/states.entity.enabled';
 
 export default class BingoBookBehind {
 
-    // TODO: use static
-    protected EntityEnabledStates!: EntityEnabledStates;
-    
     /**
      * 誰の情報を抽出するかの指定。
      * Account ページのユーザ名。
@@ -30,7 +27,7 @@ export default class BingoBookBehind {
      * コンストラクタ
      */
     constructor() {
-        this.EntityEnabledStates = new EntityEnabledStates();
+        // this.EntityEnabledStates = new EntityEnabledStates();
         this.SearchWanteds();
     }
     /**
@@ -56,7 +53,7 @@ export default class BingoBookBehind {
             // 「新規追加」ボタンを表示するためのモックデータを作成
             const entity = new TrWanted();
             entity.uuid = WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
-            entity.enabled = this.EntityEnabledStates.ENABLED;
+            entity.enabled = EntityEnableStates.ENABLE;
             const forNew = new WantedRowDesignedModel();
             forNew.EntityToRow(entity);
             array.push(forNew);
@@ -124,7 +121,7 @@ export default class BingoBookBehind {
             // 削除情報をマージ
             row.EntityToRow(entity);
             // 表示上から削除
-            this.rows = currentRows.filter(x => x.enabled === this.EntityEnabledStates.ENABLED);
+            this.rows = currentRows.filter(x => x.enabled === EntityEnableStates.ENABLE);
         })
         .catch((error: any) => {
             alert(`error(delete-wanteds)`);
