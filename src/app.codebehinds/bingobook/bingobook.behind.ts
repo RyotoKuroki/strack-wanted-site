@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import moment from 'moment';
-import ServerFlow from '@/app.server.flows/ServerFlow.ts';
-import TrWanted from '@/app.entities/TrWanted.ts';
-import WantedRowDesignedModel from '@/app.codebehinds/bingobook/WantedRow.designedmodel.ts';
-import { BrowserCacheDifinitions } from '../../app.consts/difinitions';
+import Api from '@/app.services/api';
+import TrWanted from '@/app.entities/tr.wanted';
+import WantedRowDesignedModel from '@/app.codebehinds/bingobook/wanted.row.designedmodel';
+import { BrowserCaches } from '../../app.consts/cache.browser';
 import { EntityEnableStates } from 'strack-wanted-meta/dist/consts/states/states.entity.enabled';
 
 export default class BingoBookBehind {
@@ -14,7 +14,7 @@ export default class BingoBookBehind {
      * エンティティの Whois フィールドを標的にする。
      */
     protected get _Whois(): string {
-        const temp = localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        const temp = localStorage[BrowserCaches.ACCOUNT_USER_NAME];
         return !temp ? '' : temp;
     }
 
@@ -34,7 +34,7 @@ export default class BingoBookBehind {
      * 表示データ検索
      */
     public SearchWanteds() {
-        ServerFlow.Execute({
+        Api.Execute({
             // reqMethod: 'post',
             url: 'get-wanteds',
             data: {
@@ -108,7 +108,7 @@ export default class BingoBookBehind {
         // DBサーバへ削除リクエスト
         // 既存データの削除はサーバへ削除リクエス込み
         const _row = $.extend(true, {}, row);
-        ServerFlow.Execute({
+        Api.Execute({
             // reqMethod: 'post',
             url: `delete-wanteds`,
             data: {
@@ -149,7 +149,7 @@ export default class BingoBookBehind {
         const uuid = row.IsForAddedDataRow ? '' : row.uuid;
         const _row = $.extend(true, {}, row);
         _row.uuid = uuid;
-        ServerFlow.Execute({
+        Api.Execute({
             // reqMethod: 'post',
             url: `upsert-wanteds`,
             data: {

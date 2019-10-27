@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
+import WantedPaperDesignedModel from '@/app.codebehinds/strackout/wanted.paper.designedmodel.ts';
 
 @Component
 export default class WantedPaper extends Vue {

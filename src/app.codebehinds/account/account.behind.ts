@@ -1,14 +1,11 @@
 import $ from 'jquery';
 import moment from 'moment';
-import ServerFlow from '@/app.server.flows/ServerFlow.ts';
-import TrAccount from '@/app.entities/TrAccount.ts';
-import { BrowserCacheDifinitions } from '@/app.consts/difinitions';
+import Api from '@/app.services/api';
+import TrAccount from '@/app.entities/tr.account';
+import { BrowserCaches } from '@/app.consts/cache.browser';
 
 export default class AccountBehind {
 
-    // readonly CACHE_USER_NAME: string = 'account#user_name';
-    // readonly CACHE_IMAGE_BASE64: string = 'account#image_base64';
-    
     /**
      * ユーザ名。
      * これをキーに、紐づくWanted情報を抽出します。
@@ -31,15 +28,15 @@ export default class AccountBehind {
      * ブラウザキャッシュのユーザ名
      * get/set
      */
-    protected get _CachedUserName(): string { return localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME]; }
-    protected set _CachedUserName(value: string) { localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME] = this.EscapeNull(this.UserName); }
+    protected get _CachedUserName(): string { return localStorage[BrowserCaches.ACCOUNT_USER_NAME]; }
+    protected set _CachedUserName(value: string) { localStorage[BrowserCaches.ACCOUNT_USER_NAME] = this.EscapeNull(this.UserName); }
 
     /**
      * ブラウザキャシュのサムネ
      * get/set
      */
-    protected get _CachedImageBase64(): string { return localStorage[BrowserCacheDifinitions.ACCOUNT_IMAGE_BASE64]; }
-    protected set _CachedImageBase64(value: string) { localStorage[BrowserCacheDifinitions.ACCOUNT_IMAGE_BASE64] = this.EscapeNull(this.ImageBase64); }
+    protected get _CachedImageBase64(): string { return localStorage[BrowserCaches.ACCOUNT_IMAGE_BASE64]; }
+    protected set _CachedImageBase64(value: string) { localStorage[BrowserCaches.ACCOUNT_IMAGE_BASE64] = this.EscapeNull(this.ImageBase64); }
     
     /**
      * コンストラクタ

@@ -1,4 +1,4 @@
-export class BrowserCacheDifinitions {
+export class BrowserCaches {
 
     public static ACCOUNT_USER_NAME: string = 'account#user_name';
     

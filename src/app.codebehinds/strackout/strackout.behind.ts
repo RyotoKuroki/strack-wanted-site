@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import moment from 'moment';
-import ServerFlow from '@/app.server.flows/ServerFlow.ts';
-import TrWanted from '@/app.entities/TrWanted.ts';
-import WantedPaperDesignedModel from '@/app.codebehinds/strackout/WantedPaper.designedmodel.ts';
-import { BrowserCacheDifinitions } from '../../app.consts/difinitions';
+import Api from '@/app.services/api';
+import TrWanted from '@/app.entities/tr.wanted';
+import WantedPaperDesignedModel from '@/app.codebehinds/strackout/wanted.paper.designedmodel';
+import { BrowserCaches } from '../../app.consts/cache.browser';
 import { DoneStates } from 'strack-wanted-meta/dist/consts/states/states.done';
 
 export default class StrackOutBehind {
@@ -14,7 +14,7 @@ export default class StrackOutBehind {
      * エンティティの Whois フィールドを標的にする。
      */
     protected get _Whois(): string {
-        const temp = localStorage[BrowserCacheDifinitions.ACCOUNT_USER_NAME];
+        const temp = localStorage[BrowserCaches.ACCOUNT_USER_NAME];
         return !temp ? '' : temp;
     }
 
@@ -31,7 +31,7 @@ export default class StrackOutBehind {
     }
     
     public SearchWanteds() {
-        ServerFlow.Execute({
+        Api.Execute({
             // reqMethod: 'post',
             url: 'get-wanteds',
             data: {
@@ -64,7 +64,7 @@ export default class StrackOutBehind {
         wanted.revision = paper.revision;
         wanted.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
         // wanted.whois = paper.whois;
-        ServerFlow.Execute({
+        Api.Execute({
             // reqMethod: 'post',
             url: 'done-wanteds',
             data: {

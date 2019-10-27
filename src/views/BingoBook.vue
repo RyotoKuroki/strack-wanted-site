@@ -98,8 +98,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import BingoBookBehind from '@/app.codebehinds/bingobook/BingoBookBehind.ts';
-import TrWanted from '@/app.entities/TrWanted.ts';
+import BingoBookBehind from '@/app.codebehinds/bingobook/bingobook.behind.ts';
+import TrWanted from '@/app.entities/tr.wanted.ts';
 
 @Component({
   components: {

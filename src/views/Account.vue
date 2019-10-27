@@ -33,8 +33,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AccountBehind from '@/app.codebehinds/account/AccountBehind.ts';
-import TrAccount from '@/app.entities/TrAccount.ts';
+import AccountBehind from '@/app.codebehinds/account/account.behind.ts';
+import TrAccount from '@/app.entities/tr.account.ts';
 
 @Component({
   components: {

@@ -19,9 +19,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 // import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import WantedPaper from '@/components/WantedPaper.vue';
-import StrackOutBehind from '@/app.codebehinds/strackout/StrackOutBehind.ts';
-import TrWanted from '@/app.entities/TrWanted.ts';
+import WantedPaper from '@/components/wanted.paper.vue';
+import StrackOutBehind from '@/app.codebehinds/strackout/strackout.behind.ts';
+import TrWanted from '@/app.entities/tr.wanted.ts';
 
 @Component({
   components: {

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-export default class ServerFlow {
+export default class Api {
     public static Execute(opts: {
                     url: string,
                     data: any,
