@@ -47,15 +47,15 @@ export default class BingoBookBehind {
             // 取得データを、画面バインド用情報へマージ
             $.each(result.wanteds, (index: number, entity: any) => {
                 const row = new WantedRowDesignedModel();
-                row.EntityToRow(entity);
+                row.EntityToRow(entity, false);
                 array.push(row);
             });
             // 「新規追加」ボタンを表示するためのモックデータを作成
             const entity = new TrWanted();
-            entity.uuid = WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
+            entity.uuid = '';
             entity.enabled = EntityEnableStates.ENABLE;
             const forNew = new WantedRowDesignedModel();
-            forNew.EntityToRow(entity);
+            forNew.EntityToRow(entity, true);
             array.push(forNew);
             
             this.rows = array;
@@ -78,9 +78,10 @@ export default class BingoBookBehind {
         
         // 最下行（「新規追加」ボタンよりは上）に、ブランク行を追加
         const entity = new TrWanted();
-        entity.uuid = WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
+        entity.uuid = '';
+        entity.enabled = EntityEnableStates.ENABLE;
         const blank = new WantedRowDesignedModel();
-        blank.EntityToRow(entity);
+        blank.EntityToRow(entity, false);
         this.rows.splice(this.rows.length-1, 0, blank);
 
         // 最下部へスクロール！
@@ -101,7 +102,9 @@ export default class BingoBookBehind {
 
         // 新規追加行の削除は画面上だけの対応でOK
         if(row.IsForAddedDataRow) {
-            this.rows = currentRows.filter(x => x.uuid !== row.uuid);
+            this.rows = currentRows.filter(x =>
+                x.IsForButton ||
+                x.uuid !== row.uuid);
             return;
         }
 
@@ -119,9 +122,11 @@ export default class BingoBookBehind {
         .done((result: any) => {
             const entity: TrWanted = result.wanteds[0];
             // 削除情報をマージ
-            row.EntityToRow(entity);
+            row.EntityToRow(entity, false);
             // 表示上から削除
-            this.rows = currentRows.filter(x => x.enabled === EntityEnableStates.ENABLE);
+            this.rows = currentRows.filter(x =>
+                x.IsForButton ||
+                x.enabled === EntityEnableStates.ENABLE);
         })
         .catch((error: any) => {
             alert(`error(delete-wanteds)`);
@@ -146,9 +151,7 @@ export default class BingoBookBehind {
             !check(row.name !== null && row.name !== '', 'ターゲット名'))
             return;
         // save
-        const uuid = row.IsForAddedDataRow ? '' : row.uuid;
         const _row = $.extend(true, {}, row);
-        _row.uuid = uuid;
         Api.Execute({
             // reqMethod: 'post',
             url: `upsert-wanteds`,
@@ -160,7 +163,7 @@ export default class BingoBookBehind {
         .done((result: any, textStatus: any, jqXHR: any, ) => {
             const entity: TrWanted = result.wanteds[0];
             // 修正行を抽出
-            row.EntityToRow(entity);
+            row.EntityToRow(entity, false);
         })
         .catch((error: any) => {
             alert(`error(upsert-wanteds)`);

@@ -7,9 +7,6 @@ import ITR_Wanted from 'strack-wanted-meta/src/entities/I.tr.wanted';
  */
 export default class WantedRowDesignedModel implements ITR_Wanted {
 
-    public static readonly UUID_KEY__BUTTON_ROW: string = 'UUID_KEY__BUTTON_ROW';
-    public static readonly UUID_KEY__ADDED_ROW: string = 'UUID_KEY__ADDED_ROW';
-
     protected _entity!: ITR_Wanted;
 
     public uuid!: string;
@@ -24,7 +21,10 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
 
     public btn_saving_caption = '';
 
-    public EntityToRow(entity: ITR_Wanted) {
+    public is_header!: boolean;
+    public is_new!: boolean;
+
+    public EntityToRow(entity: ITR_Wanted, isHeader: boolean) {
         // 初期設定値
         this._entity = entity;
         // 画面バインドフィールド値
@@ -37,11 +37,9 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
         this.image_base64 = entity.image_base64;
         this.warning = entity.warning;
         this.done = entity.done;
+        this.is_header = isHeader;
+        this.is_new = !isHeader && entity.uuid === '';
         this.btn_saving_caption = this.IsForAddedDataRow ? '新規登録' : '更新';
-    }
-
-    public get FormattedPrizeMoney(): string {
-        return this.prize_money.toLocaleString();
     }
 
     // 画像が設定されている？
@@ -58,10 +56,10 @@ export default class WantedRowDesignedModel implements ITR_Wanted {
 
     // この行は「新規追加」ボタン用の行情報？
     public get IsForButton(): boolean {
-        return this.uuid === WantedRowDesignedModel.UUID_KEY__BUTTON_ROW;
+        return this.is_header;
     }
     // この行は、新規追加されたブランク行情報？
     public get IsForAddedDataRow(): boolean {
-        return this.uuid === WantedRowDesignedModel.UUID_KEY__ADDED_ROW;
+        return this.is_new;
     }
 }

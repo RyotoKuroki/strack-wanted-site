@@ -63,7 +63,7 @@ export default class StrackOutBehind {
         wanted.uuid = paper.uuid;
         wanted.revision = paper.revision;
         wanted.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
-        // wanted.whois = paper.whois;
+        wanted.whois = paper.whois;
         Api.Execute({
             // reqMethod: 'post',
             url: 'done-wanteds',
