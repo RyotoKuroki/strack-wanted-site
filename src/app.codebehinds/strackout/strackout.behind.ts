@@ -21,7 +21,7 @@ export default class StrackOutBehind {
     /**
      * 表示モデルリスト
      */
-    public papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
+    public Papers: WantedPaperDesignedModel[] = new Array<WantedPaperDesignedModel>();
 
     /**
      * コンストラクタ
@@ -45,10 +45,10 @@ export default class StrackOutBehind {
                 row.EntityToRow(entity);
                 array.push(row);
             });
-            this.papers = array;
+            this.Papers = array;
         })
-        .catch((error: any) => {
-            alert(`error(get-wanteds)`);
+        .catch((result: any) => {
+            console.log(result.error);
         });
     }
 
@@ -76,8 +76,8 @@ export default class StrackOutBehind {
             const target: TrWanted = result.wanteds[0];
             paper.EntityToRow(target);
         })
-        .catch((error: any) => {
-            alert(`error(done-wanteds)`);
+        .catch((result: any) => {
+            console.log(result.error);
         });
     }
 }

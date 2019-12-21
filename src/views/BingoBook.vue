@@ -2,7 +2,7 @@
   <div class="bingoBook container" id="bingoBook">
     <div class="row">
       <div class="col-12">
-        <div class="row" v-for="(row, uuid) in codeBehind.rows" :key="uuid">
+        <div class="row" v-for="(row, index) in codeBehind.Rows">
           <div  v-if="!row.IsForButton" class="col-12">
             <hr class="m-1 p-0" style="color: gray;" />
           </div>

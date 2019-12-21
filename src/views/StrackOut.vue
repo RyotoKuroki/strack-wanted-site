@@ -1,7 +1,7 @@
 <template>
   <div class="strackOut container" id="strackOut">
     <div class="row">
-      <div class="col-12 col-sm-6 col-md-4" v-for="(row, uuid) in codeBehind.papers" :key="uuid" >
+      <div class="col-12 col-sm-6 col-md-4" v-for="(row, index) in codeBehind.Papers">
         <WantedPaper
           :uuid="row.uuid"
           :name="row.name"
