@@ -59,17 +59,14 @@ export default class StrackOutBehind {
             :　`${moment(new Date()).format('HH時mm分、')}ターゲット確保〜！？`;
         if(!confirm(msg))
             return;
-        const wanted = new TrWanted();
-        wanted.uuid = paper.uuid;
-        wanted.revision = paper.revision;
-        wanted.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
-        wanted.whois = paper.whois;
+        const _paper = $.extend(true, {}, paper);
+        _paper.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
         Api.Execute({
             // reqMethod: 'post',
             url: 'done-wanteds',
             data: {
                 whois: this._Whois,
-                wanteds: [wanted]
+                wanteds: [_paper]
             }
         })
         .done((result: any) => {
