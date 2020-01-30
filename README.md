@@ -38,7 +38,7 @@ npm run lint
 私自身の勉強用（サンドボックス用途）の側面もあり、<br>
 試作中のソースでデプロイすることもあります・・（"∇" ;）ｩﾊﾊﾊｯ<br>
 アクセスして頂いた際、挙動がおかしかったらごめんなさい（笑）<br>
-<h3>メンテ中！<sup>（というのは言い訳で、現在デプロイ失敗中...）</sup></h3>
+<br><br><h3>メンテ中！<sup>（というのは言い訳で、現在デプロイ失敗につき調整中...）</sup></h3>
 https://strack-wanted-site.azurewebsites.net/<br>
 
 ![Kazam_screenshot_00003](https://user-images.githubusercontent.com/49635377/66712853-00981400-edde-11e9-832b-2b1906ec392f.png)
