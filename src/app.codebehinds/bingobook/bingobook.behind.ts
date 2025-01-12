@@ -38,7 +38,8 @@ export default class BingoBookBehind {
             url: 'get-wanteds',
             data: {
                 whois: this._Whois,
-            }
+            },
+            reqMethod: 'get',
         })
         .done((result: any) => {
             const array = new Array<WantedRowDesignedModel>();
@@ -109,14 +110,14 @@ export default class BingoBookBehind {
         const _row = $.extend(true, {}, row);
         Api.Execute({
             // reqMethod: 'post',
-            url: `delete-wanteds`,
+            url: `delete-wanted`,
             data: {
                 whois: this._Whois,
-                wanteds: [_row]
+                wanted: _row
             }
         })
         .done((result: any) => {
-            const entity: TrWanted = result.wanteds[0];
+            const entity: TrWanted = result.wanted;
             // 削除情報をマージ
             row.EntityToRow(entity, false);
             // 表示上から削除
@@ -150,14 +151,14 @@ export default class BingoBookBehind {
         const _row = $.extend(true, {}, row);
         Api.Execute({
             // reqMethod: 'post',
-            url: `upsert-wanteds`,
+            url: `upsert-wanted`,
             data: {
                 whois: this._Whois,
-                wanteds: [_row]
+                wanted: _row
             }
         })
         .done((result: any, textStatus: any, jqXHR: any, ) => {
-            const entity: TrWanted = result.wanteds[0];
+            const entity: TrWanted = result.wanted;
             // Revision更新された情報が返ってくるので、画面バインド情報へ反映
             row.EntityToRow(entity, false);
         })

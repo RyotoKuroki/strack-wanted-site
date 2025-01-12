@@ -36,7 +36,8 @@ export default class StrackOutBehind {
             url: 'get-wanteds',
             data: {
                 whois: this._Whois,
-            }
+            },
+            reqMethod: 'get',
         })
         .done((result: any) => {
             const array = new Array<WantedPaperDesignedModel>();
@@ -63,14 +64,14 @@ export default class StrackOutBehind {
         _paper.done = doneAlready ? DoneStates.YET : DoneStates.DONE;
         Api.Execute({
             // reqMethod: 'post',
-            url: 'done-wanteds',
+            url: 'done-wanted',
             data: {
                 whois: this._Whois,
-                wanteds: [_paper]
+                wanted: _paper
             }
         })
         .done((result: any) => {
-            const target: TrWanted = result.wanteds[0];
+            const target: TrWanted = result.wanted;
             paper.EntityToRow(target);
         })
         .catch((result: any) => {
