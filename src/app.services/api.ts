@@ -10,7 +10,7 @@ export default class Api {
 
         opts = $.extend(true, {
             reqMethod: 'post',
-            timeout: 1000 * 5
+            timeout: 1000 * 11 // 暫定で11秒
         }, opts);
         const ajx = $.ajax({
             url: `http://localhost:3000/${opts.url}`,
